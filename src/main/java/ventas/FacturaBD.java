@@ -1,6 +1,8 @@
 
 package ventas;
 
+import interfaces.GuardadFactura;
+
 /**
  *
  * @author felipe

@@ -1,6 +1,7 @@
 
 package ventas;
 
+import interfaces.AdminFactura;
 import java.util.ArrayList;
 
 /**

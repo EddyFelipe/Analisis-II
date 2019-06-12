@@ -1,4 +1,4 @@
-package ventas;
+package interfaces;
 
 import java.util.ArrayList;
 

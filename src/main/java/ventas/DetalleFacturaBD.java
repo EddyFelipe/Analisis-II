@@ -5,6 +5,8 @@
  */
 package ventas;
 
+import interfaces.GuardarDetalleFactura;
+import interfaces.AdminFactura;
 import java.util.ArrayList;
 
 /**

@@ -1,5 +1,7 @@
 
-package ventas;
+package interfaces;
+
+import ventas.Factura;
 
 /**
  *
