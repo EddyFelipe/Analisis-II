@@ -6,23 +6,8 @@
 package recursoshumanos;
 
 import interfaces.RecursosHumanosF;
-import java.util.ArrayList;
 
-/**
- *
- * @author User
- */
 public class PagosPersonal implements RecursosHumanosF {
-
-  private ArrayList pagosEmpleados;
-
-  private static PagosPersonal pagosPersonal;
-
-    
-    
-  public static PagosPersonal iniciarEstancia() {
-  return null;
-  }
 
     @Override
     public void agregar(float dato) {
@@ -43,4 +28,6 @@ public class PagosPersonal implements RecursosHumanosF {
     public void recolectar() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+  
 }

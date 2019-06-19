@@ -10,19 +10,7 @@ package recursoshumanos;
  * @author User
  */
 import interfaces.RecursosHumanosS;
-import java.util.ArrayList;
-import java.util.Vector;
-
 public class TelefonosPersonal implements RecursosHumanosS {
-
-  private ArrayList telefonosEmpleados;
-
-  private static TelefonosPersonal telefonosPersonal;
-
-      
-  public static TelefonosPersonal iniciarEstancia() {
-  return null;
-  }
 
     @Override
     public void agregar(String dato) {
@@ -44,4 +32,5 @@ public class TelefonosPersonal implements RecursosHumanosS {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
 }
