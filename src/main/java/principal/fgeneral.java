@@ -5,6 +5,7 @@
  */
 package principal;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -36,6 +37,8 @@ public class fgeneral extends javax.swing.JFrame {
         btnExit = new javax.swing.JButton();
         btnMinimize = new javax.swing.JButton();
         menu = new javax.swing.JPanel();
+        btnVentas = new javax.swing.JButton();
+        btnInventario = new javax.swing.JButton();
         contenedor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,7 +89,6 @@ public class fgeneral extends javax.swing.JFrame {
         btnMinimize.setBorder(null);
         btnMinimize.setBorderPainted(false);
         btnMinimize.setFocusPainted(false);
-        btnMinimize.setPreferredSize(new java.awt.Dimension(12, 36));
         btnMinimize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnMinimizeMouseEntered(evt);
@@ -133,15 +135,41 @@ public class fgeneral extends javax.swing.JFrame {
         menu.setBackground(new java.awt.Color(0, 136, 204));
         menu.setPreferredSize(new java.awt.Dimension(70, 600));
 
+        btnVentas.setText("Ventas");
+        btnVentas.setBorder(null);
+        btnVentas.setBorderPainted(false);
+        btnVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentasActionPerformed(evt);
+            }
+        });
+
+        btnInventario.setText("Inventario");
+        btnInventario.setBorder(null);
+        btnInventario.setBorderPainted(false);
+        btnInventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInventarioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
+            .addComponent(btnVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addComponent(btnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(462, Short.MAX_VALUE))
         );
 
         getContentPane().add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
@@ -206,6 +234,29 @@ public class fgeneral extends javax.swing.JFrame {
         this.setState(fgeneral.ICONIFIED);
     }//GEN-LAST:event_btnMinimizeActionPerformed
 
+    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
+        // TODO add your handling code here:
+        fventa venta = new fventa();
+        venta.setSize(1010,600);
+        venta.setLocation(0, 0);
+        contenedor.removeAll();
+        contenedor.add(venta,BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+        
+    }//GEN-LAST:event_btnVentasActionPerformed
+
+    private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
+        // TODO add your handling code here:
+        finvenario in = new finvenario();
+        in.setSize(1010,600);
+        in.setLocation(0, 0);
+        contenedor.removeAll();
+        contenedor.add(in,BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+    }//GEN-LAST:event_btnInventarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -243,7 +294,9 @@ public class fgeneral extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnInventario;
     private javax.swing.JButton btnMinimize;
+    private javax.swing.JButton btnVentas;
     private javax.swing.JPanel contenedor;
     private javax.swing.JPanel encabezado;
     private javax.swing.JLabel jLabel1;
