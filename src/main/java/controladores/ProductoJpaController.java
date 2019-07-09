@@ -34,23 +34,18 @@ public class ProductoJpaController implements Serializable {
 
 
     public void create(Producto producto) throws PreexistingEntityException, Exception {
-        if (producto.getProductoPK() == null) {
-            producto.setProductoPK(new ProductoPK());
-        }
-        EntityManager em = null;
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(producto);
-            em.getTransaction().commit();
+            emf.getTransaction().begin();
+            emf.persist(producto);
+            emf.getTransaction().commit();
         } catch (Exception ex) {
             if (findProducto(producto.getProductoPK()) != null) {
                 throw new PreexistingEntityException("Producto " + producto + " already exists.", ex);
             }
             throw ex;
         } finally {
-            if (em != null) {
-                em.close();
+            if (emf != null) {
+                emf.close();
             }
         }
     }

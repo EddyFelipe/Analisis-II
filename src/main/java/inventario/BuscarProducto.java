@@ -3,23 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ventas;
+package inventario;
 
+import controladores.ProductoJpaController;
 import interfaces.Filtrar;
-import java.util.ArrayList;
+import entidades.Producto;
 import java.util.List;
 import javax.persistence.EntityManager;
-
 /**
  *
  * @author felipe
  */
-public class Ventas  implements  Filtrar{
-
+public class BuscarProducto implements Filtrar{
 
     @Override
     public List buscarObjects(Object obj, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ProductoJpaController controller = new ProductoJpaController(em);
+       List<Producto> list_producto = controller.findProductoEntities();
+       return list_producto;
     }
     
 }

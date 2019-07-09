@@ -10,15 +10,19 @@ import javax.persistence.Persistence;
  */
 public class singleton {
     
-    private static EntityManager em = null;
+    private static EntityManagerFactory emf = null;
     
     public static EntityManager getConnection(){
         
-        if( em == null){
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("continental"); //Conexion a la base datos
-            em = emf.createEntityManager();
+        if( emf == null){
+          try {
+              emf = Persistence.createEntityManagerFactory("continental"); //Conexion a la base datos            
+           } catch (Exception e) {
+                System.out.println(e);
+           }         
         }
-       return em;
+       return emf.createEntityManager(); 
     }
+   
     
 }

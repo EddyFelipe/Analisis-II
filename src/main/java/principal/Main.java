@@ -18,6 +18,7 @@ public class Main {
         // TODO code application logic here
         fgeneral fg = new fgeneral();
         fg.setVisible(true);
+       
     }
     
 }
