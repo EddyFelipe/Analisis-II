@@ -134,43 +134,36 @@ public class fgeneral extends javax.swing.JFrame {
 
         menu.setBackground(new java.awt.Color(0, 136, 204));
         menu.setPreferredSize(new java.awt.Dimension(70, 600));
+        menu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnVentas.setText("Ventas");
+        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/venta.png"))); // NOI18N
         btnVentas.setBorder(null);
         btnVentas.setBorderPainted(false);
+        btnVentas.setContentAreaFilled(false);
+        btnVentas.setFocusPainted(false);
+        btnVentas.setPreferredSize(new java.awt.Dimension(50, 50));
+        btnVentas.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Venta2.png"))); // NOI18N
+        btnVentas.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Venta1.png"))); // NOI18N
         btnVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVentasActionPerformed(evt);
             }
         });
+        menu.add(btnVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 50, 50));
 
-        btnInventario.setText("Inventario");
+        btnInventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/productos.png"))); // NOI18N
         btnInventario.setBorder(null);
         btnInventario.setBorderPainted(false);
+        btnInventario.setContentAreaFilled(false);
+        btnInventario.setFocusPainted(false);
+        btnInventario.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Productos3.png"))); // NOI18N
+        btnInventario.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/productos1.png"))); // NOI18N
         btnInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInventarioActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
-        menu.setLayout(menuLayout);
-        menuLayout.setHorizontalGroup(
-            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(menuLayout.createSequentialGroup()
-                .addComponent(btnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        menuLayout.setVerticalGroup(
-            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(menuLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(462, Short.MAX_VALUE))
-        );
+        menu.add(btnInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 50, 50));
 
         getContentPane().add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
 

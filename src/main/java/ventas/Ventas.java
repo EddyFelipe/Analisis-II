@@ -5,21 +5,36 @@
  */
 package ventas;
 
-import interfaces.Filtrar;
-import java.util.ArrayList;
+import interfaces.*;
+import entidades.*;
+import controladores.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author felipe
  */
-public class Ventas  implements  Filtrar{
+public class Ventas  implements AccionesBasicas{
 
+
+    
 
     @Override
-    public List buscarObjects(Object obj, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean registrarObject(Object obj, EntityManager em) {
+        try {
+            ClienteJpaController controllercliente = new ClienteJpaController(em);
+            controllercliente.create((Cliente)obj);
+            TypedQuery<Cliente> query = em.createNamedQuery("Cliente.findLastid",Cliente.class);
+            System.out.println("ID INSERTADO: ");
+            return true;
+        } catch (Exception ex) {            
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
     
 }

@@ -117,6 +117,11 @@ public class ProductoJpaController implements Serializable {
             em.close();
         }
     }
+    
+   /* public List<Producto> findProductos(String nombre){
+       //Query q = emf.createNamedQuery("SELECT ");
+    }*/
+    
 
     public Producto findProducto(ProductoPK id) {
         EntityManager em = getEntityManager();
