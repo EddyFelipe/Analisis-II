@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,11 +34,14 @@ import javax.persistence.Table;
     @NamedQuery(name = "Empleados.findByAdministrador", query = "SELECT e FROM Empleados e WHERE e.administrador = :administrador"),
     @NamedQuery(name = "Empleados.findByPregunta", query = "SELECT e FROM Empleados e WHERE e.pregunta = :pregunta"),
     @NamedQuery(name = "Empleados.findByRespuesta", query = "SELECT e FROM Empleados e WHERE e.respuesta = :respuesta"),
-    @NamedQuery(name = "Empleados.findBySalario", query = "SELECT e FROM Empleados e WHERE e.salario = :salario")})
+    @NamedQuery(name = "Empleados.findBySalario", query = "SELECT e FROM Empleados e WHERE e.salario = :salario"),
+    @NamedQuery(name = "Empleados.findByTelefono", query = "SELECT e FROM Empleados e WHERE e.telefono = :telefono"),
+    @NamedQuery(name = "Empleados.filtring", query = "SELECT e FROM Empleados e WHERE e.nombre LIKE :nombrefilter" )})
 public class Empleados implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -61,6 +66,8 @@ public class Empleados implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "salario")
     private Float salario;
+    @Column(name = "telefono")
+    private String telefono;
 
     public Empleados() {
     }
@@ -155,6 +162,14 @@ public class Empleados implements Serializable {
 
     public void setSalario(Float salario) {
         this.salario = salario;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     @Override

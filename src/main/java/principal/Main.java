@@ -6,7 +6,10 @@
 package principal;
 
 import controladores.EmpleadosJpaController;
+import entidades.Empleados;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import singleton.singleton;
 
 /**
@@ -20,13 +23,22 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        //fgeneral fg = new fgeneral();
-        //fg.setVisible(true);
-         EmpleadosJpaController ejc = new EmpleadosJpaController(singleton.getConnection());
-        List<entidades.Empleados> query = ejc.findEmpleadosEntities();
-        for (entidades.Empleados emp : query) {
-            System.out.println(emp);
-        }
+        fgeneral fg = new fgeneral();
+        fg.setVisible(true);
+        //EmpleadosJpaController ejc = new EmpleadosJpaController(singleton.getConnection());
+        //Empleados empleado = new Empleados();
+        //empleado.setId(3);
+        //empleado.setNombre("Byron");
+        //empleado.setApellido("Rosales");
+        //try {
+          //  ejc.edit(empleado);
+            //List<entidades.Empleados> query = ejc.findEmpleadosEntities();
+            //for (entidades.Empleados emp : query) {
+            //    System.out.println(emp);
+            // }
+        //} catch (Exception ex) {
+          //  Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        //}
         
     }
     

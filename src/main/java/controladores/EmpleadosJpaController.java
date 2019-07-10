@@ -6,7 +6,6 @@
 package controladores;
 
 import controladores.exceptions.NonexistentEntityException;
-import controladores.exceptions.PreexistingEntityException;
 import entidades.Empleados;
 import java.io.Serializable;
 import java.util.List;
@@ -32,18 +31,13 @@ public class EmpleadosJpaController implements Serializable {
         return emf;
     }
 
-    public void create(Empleados empleados) throws PreexistingEntityException, Exception {
+    public void create(Empleados empleados) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(empleados);
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findEmpleados(empleados.getId()) != null) {
-                throw new PreexistingEntityException("Empleados " + empleados + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -126,6 +120,13 @@ public class EmpleadosJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public List filtrar(String filtrado)
+    {
+        Query query = emf.createNamedQuery("Empleados.filtring", Empleados.class);
+        query.setParameter("nombrefilter", filtrado+"%");
+        return query.getResultList();
     }
 
     public int getEmpleadosCount() {

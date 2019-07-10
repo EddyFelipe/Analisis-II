@@ -14,5 +14,6 @@ import javax.persistence.EntityManager;
 public interface AccionesBasicas {
     
     public boolean registrarObject(Object obj, EntityManager em);
-    
+    public boolean editarObject(Object obj, EntityManager em, int id);
+    public boolean eliminarObject(Object obj, EntityManager em, int id);
 }
