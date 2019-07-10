@@ -63,8 +63,5 @@ public class Inventario implements AccionesBasicas{
     }
     
     public Producto getProducto(int index){ return listtemporal.get(index); }
-    public boolean modificarProducto(){
-     return true;
-    }
     
 }

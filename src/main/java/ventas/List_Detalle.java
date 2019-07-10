@@ -23,7 +23,7 @@ public class List_Detalle implements DetalleFactura{
       total = 0;
     }
     @Override
-    public void registart(Object detalle) {
+    public void registrar(Object detalle) {
         DetalleVenta dt = (DetalleVenta)detalle;
         total += dt.getSubTotal();
        listaventa.add(dt);

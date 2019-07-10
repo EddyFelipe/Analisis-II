@@ -300,7 +300,7 @@ public class fventa extends javax.swing.JPanel {
                  dt1.setCantidad(Integer.parseInt(captado.toString()));
                  dt1.setDescripcion("Unidad");
                  dt1.setSubTotal(dt1.getCantidad()*prd.getPrecioVenta());
-                 detallfactura.registart(dt1); // se registra un detalle de venta 
+                 detallfactura.registrar(dt1); // se registra un detalle de venta 
                  
                  // se actualiza el modelo en el jtable
                  model.addRow(new Object[]{prd.getNombre(),dt1.getDescripcion(),dt1.getCantidad(),dt1.getSubTotal()});
