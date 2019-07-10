@@ -10,6 +10,7 @@ import entidades.Cliente;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,25 +22,25 @@ import javax.persistence.criteria.Root;
  */
 public class ClienteJpaController implements Serializable {
 
-    public ClienteJpaController(EntityManager emf) {
+    public ClienteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManager emf = null;
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf;
+        return emf.createEntityManager();
     }
 
     public void create(Cliente cliente) {
-      //  EntityManager em = null;
+        EntityManager em = null;
         try {
-           // em = getEntityManager();
-            emf.getTransaction().begin();
-            emf.persist(cliente);
-            emf.getTransaction().commit();
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.persist(cliente);
+            em.getTransaction().commit();
         } finally {
-            if (emf != null) {
-                emf.close();
+            if (em != null) {
+                em.close();
             }
         }
     }

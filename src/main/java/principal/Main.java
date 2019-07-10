@@ -22,7 +22,7 @@ public class Main {
         // TODO code application logic here
         //fgeneral fg = new fgeneral();
         //fg.setVisible(true);
-        EmpleadosJpaController ejc = new EmpleadosJpaController(singleton.getConnection());
+         EmpleadosJpaController ejc = new EmpleadosJpaController(singleton.getConnection());
         List<entidades.Empleados> query = ejc.findEmpleadosEntities();
         for (entidades.Empleados emp : query) {
             System.out.println(emp);

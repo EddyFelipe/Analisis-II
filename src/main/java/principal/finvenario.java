@@ -175,25 +175,7 @@ public class finvenario extends javax.swing.JPanel {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        
-        if( !txtCanProducto.getText().equals("") && 
-            !txtNomProducto.getText().equals("") && 
-            !txtPrecioProducto.getText().equals("")){
-              
-            Producto producto1 = new Producto(0,1);
-            producto1.setNombre(txtNomProducto.getText());
-            producto1.setCantidad(Integer.parseInt(txtCanProducto.getText()));
-            producto1.setPrecioVenta(Float.parseFloat(txtPrecioProducto.getText()));
-            
-            inventario.Inventario in = new Inventario();
-            
-            if(in.registrarObject(producto1,singleton.getConnection()))
-                JOptionPane.showMessageDialog(null, "Producto insertado");
-            
-        }
-        else
-            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos");
-   
+       
         
         
     }//GEN-LAST:event_btnAceptarActionPerformed

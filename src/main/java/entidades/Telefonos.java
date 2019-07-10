@@ -15,15 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author igeni
+ * @author felipe
  */
 @Entity
 @Table(name = "telefonos")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Telefonos.findAll", query = "SELECT t FROM Telefonos t"),
     @NamedQuery(name = "Telefonos.findById", query = "SELECT t FROM Telefonos t WHERE t.id = :id"),

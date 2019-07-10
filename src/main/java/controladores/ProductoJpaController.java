@@ -12,6 +12,7 @@ import entidades.ProductoPK;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,15 +24,14 @@ import javax.persistence.criteria.Root;
  */
 public class ProductoJpaController implements Serializable {
 
-    public ProductoJpaController(EntityManager emf) {
-          this.emf = emf;
+    public ProductoJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
     }
-    private EntityManager emf = null;
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf;
+        return emf.createEntityManager();
     }
-
 
     public void create(Producto producto) throws PreexistingEntityException, Exception {
         if (producto.getProductoPK() == null) {

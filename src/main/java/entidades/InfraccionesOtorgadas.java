@@ -15,23 +15,21 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author igeni
+ * @author felipe
  */
 @Entity
-@Table(name = "infraccionesotorgadas")
-@XmlRootElement
+@Table(name = "infraccionesOtorgadas")
 @NamedQueries({
-    @NamedQuery(name = "Infraccionesotorgadas.findAll", query = "SELECT i FROM Infraccionesotorgadas i"),
-    @NamedQuery(name = "Infraccionesotorgadas.findById", query = "SELECT i FROM Infraccionesotorgadas i WHERE i.id = :id"),
-    @NamedQuery(name = "Infraccionesotorgadas.findByPenalizacionEmp", query = "SELECT i FROM Infraccionesotorgadas i WHERE i.penalizacionEmp = :penalizacionEmp"),
-    @NamedQuery(name = "Infraccionesotorgadas.findBySalarioEmp", query = "SELECT i FROM Infraccionesotorgadas i WHERE i.salarioEmp = :salarioEmp"),
-    @NamedQuery(name = "Infraccionesotorgadas.findByEmpleadosId", query = "SELECT i FROM Infraccionesotorgadas i WHERE i.empleadosId = :empleadosId"),
-    @NamedQuery(name = "Infraccionesotorgadas.findByInfraccionesId", query = "SELECT i FROM Infraccionesotorgadas i WHERE i.infraccionesId = :infraccionesId")})
-public class Infraccionesotorgadas implements Serializable {
+    @NamedQuery(name = "InfraccionesOtorgadas.findAll", query = "SELECT i FROM InfraccionesOtorgadas i"),
+    @NamedQuery(name = "InfraccionesOtorgadas.findById", query = "SELECT i FROM InfraccionesOtorgadas i WHERE i.id = :id"),
+    @NamedQuery(name = "InfraccionesOtorgadas.findByPenalizacionEmp", query = "SELECT i FROM InfraccionesOtorgadas i WHERE i.penalizacionEmp = :penalizacionEmp"),
+    @NamedQuery(name = "InfraccionesOtorgadas.findBySalarioEmp", query = "SELECT i FROM InfraccionesOtorgadas i WHERE i.salarioEmp = :salarioEmp"),
+    @NamedQuery(name = "InfraccionesOtorgadas.findByEmpleadosId", query = "SELECT i FROM InfraccionesOtorgadas i WHERE i.empleadosId = :empleadosId"),
+    @NamedQuery(name = "InfraccionesOtorgadas.findByInfraccionesId", query = "SELECT i FROM InfraccionesOtorgadas i WHERE i.infraccionesId = :infraccionesId")})
+public class InfraccionesOtorgadas implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,14 +49,14 @@ public class Infraccionesotorgadas implements Serializable {
     @Column(name = "infracciones_id")
     private int infraccionesId;
 
-    public Infraccionesotorgadas() {
+    public InfraccionesOtorgadas() {
     }
 
-    public Infraccionesotorgadas(Integer id) {
+    public InfraccionesOtorgadas(Integer id) {
         this.id = id;
     }
 
-    public Infraccionesotorgadas(Integer id, int empleadosId, int infraccionesId) {
+    public InfraccionesOtorgadas(Integer id, int empleadosId, int infraccionesId) {
         this.id = id;
         this.empleadosId = empleadosId;
         this.infraccionesId = infraccionesId;
@@ -114,10 +112,10 @@ public class Infraccionesotorgadas implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Infraccionesotorgadas)) {
+        if (!(object instanceof InfraccionesOtorgadas)) {
             return false;
         }
-        Infraccionesotorgadas other = (Infraccionesotorgadas) object;
+        InfraccionesOtorgadas other = (InfraccionesOtorgadas) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -126,7 +124,7 @@ public class Infraccionesotorgadas implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.Infraccionesotorgadas[ id=" + id + " ]";
+        return "entidades.InfraccionesOtorgadas[ id=" + id + " ]";
     }
     
 }

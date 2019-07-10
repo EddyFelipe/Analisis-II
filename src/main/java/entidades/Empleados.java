@@ -13,15 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author igeni
+ * @author felipe
  */
 @Entity
 @Table(name = "empleados")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Empleados.findAll", query = "SELECT e FROM Empleados e"),
     @NamedQuery(name = "Empleados.findById", query = "SELECT e FROM Empleados e WHERE e.id = :id"),
@@ -34,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Empleados.findByAdministrador", query = "SELECT e FROM Empleados e WHERE e.administrador = :administrador"),
     @NamedQuery(name = "Empleados.findByPregunta", query = "SELECT e FROM Empleados e WHERE e.pregunta = :pregunta"),
     @NamedQuery(name = "Empleados.findByRespuesta", query = "SELECT e FROM Empleados e WHERE e.respuesta = :respuesta"),
-    @NamedQuery(name = "Empleados.findBySalario", query = "SELECT e FROM Empleados e WHERE e.salario = :salario" )})
+    @NamedQuery(name = "Empleados.findBySalario", query = "SELECT e FROM Empleados e WHERE e.salario = :salario")})
 public class Empleados implements Serializable {
 
     private static final long serialVersionUID = 1L;

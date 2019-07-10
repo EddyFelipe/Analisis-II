@@ -13,23 +13,21 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author igeni
+ * @author felipe
  */
 @Entity
-@Table(name = "bonosotorgados")
-@XmlRootElement
+@Table(name = "bonosOtorgados")
 @NamedQueries({
-    @NamedQuery(name = "Bonosotorgados.findAll", query = "SELECT b FROM Bonosotorgados b"),
-    @NamedQuery(name = "Bonosotorgados.findById", query = "SELECT b FROM Bonosotorgados b WHERE b.id = :id"),
-    @NamedQuery(name = "Bonosotorgados.findByAumentoEmp", query = "SELECT b FROM Bonosotorgados b WHERE b.aumentoEmp = :aumentoEmp"),
-    @NamedQuery(name = "Bonosotorgados.findBySalarioEmp", query = "SELECT b FROM Bonosotorgados b WHERE b.salarioEmp = :salarioEmp"),
-    @NamedQuery(name = "Bonosotorgados.findByEmpleadosId", query = "SELECT b FROM Bonosotorgados b WHERE b.empleadosId = :empleadosId"),
-    @NamedQuery(name = "Bonosotorgados.findByBonosId", query = "SELECT b FROM Bonosotorgados b WHERE b.bonosId = :bonosId")})
-public class Bonosotorgados implements Serializable {
+    @NamedQuery(name = "BonosOtorgados.findAll", query = "SELECT b FROM BonosOtorgados b"),
+    @NamedQuery(name = "BonosOtorgados.findById", query = "SELECT b FROM BonosOtorgados b WHERE b.id = :id"),
+    @NamedQuery(name = "BonosOtorgados.findByAumentoEmp", query = "SELECT b FROM BonosOtorgados b WHERE b.aumentoEmp = :aumentoEmp"),
+    @NamedQuery(name = "BonosOtorgados.findBySalarioEmp", query = "SELECT b FROM BonosOtorgados b WHERE b.salarioEmp = :salarioEmp"),
+    @NamedQuery(name = "BonosOtorgados.findByEmpleadosId", query = "SELECT b FROM BonosOtorgados b WHERE b.empleadosId = :empleadosId"),
+    @NamedQuery(name = "BonosOtorgados.findByBonosId", query = "SELECT b FROM BonosOtorgados b WHERE b.bonosId = :bonosId")})
+public class BonosOtorgados implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,14 +46,14 @@ public class Bonosotorgados implements Serializable {
     @Column(name = "bonos_id")
     private int bonosId;
 
-    public Bonosotorgados() {
+    public BonosOtorgados() {
     }
 
-    public Bonosotorgados(Integer id) {
+    public BonosOtorgados(Integer id) {
         this.id = id;
     }
 
-    public Bonosotorgados(Integer id, int empleadosId, int bonosId) {
+    public BonosOtorgados(Integer id, int empleadosId, int bonosId) {
         this.id = id;
         this.empleadosId = empleadosId;
         this.bonosId = bonosId;
@@ -111,10 +109,10 @@ public class Bonosotorgados implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Bonosotorgados)) {
+        if (!(object instanceof BonosOtorgados)) {
             return false;
         }
-        Bonosotorgados other = (Bonosotorgados) object;
+        BonosOtorgados other = (BonosOtorgados) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -123,7 +121,7 @@ public class Bonosotorgados implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.Bonosotorgados[ id=" + id + " ]";
+        return "entidades.BonosOtorgados[ id=" + id + " ]";
     }
     
 }

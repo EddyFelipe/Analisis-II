@@ -1,27 +1,42 @@
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\DetalleVentaJpaController.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\FacturaPK.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\ventas\List_Detalle.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\ventas\Ventas.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\ClienteJpaController.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\Producto.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\FacturaJpaController.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\ProductoJpaController.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\Cliente.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\singleton\singleton.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\ProductoPK.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\DetalleVenta.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\principal\fventa.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\Categoria.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\Factura.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\principal\Main.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\inventario\Inventario.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\ventas\DetalleFactura.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\CategoriaJpaController.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\interfaces\AccionesBasicas.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\principal\finvenario.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\entidades\DetalleVentaPK.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\exceptions\NonexistentEntityException.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\exceptions\PreexistingEntityException.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\principal\fgeneral.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\controladores\exceptions\IllegalOrphanException.java
-C:\Users\igeni\OneDrive\Documentos\Analisis y Diseno II\Repositorio\Analisis-II\src\main\java\interfaces\Filtrar.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/exceptions/NonexistentEntityException.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Producto.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/exceptions/PreexistingEntityException.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/BonosOtorgadosJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/FacturaJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/InfraccionesJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/DetalleVenta.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/FacturaPK.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/InfraccionesOtorgadasJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/TelefonosJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/InfraccionesOtorgadas.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/ClienteJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/DetalleVentaPK.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/ProductoJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Categoria.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/principal/fgeneral.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/interfaces/AccionesBasicas.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/empleados/ClaseEmpleados.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/ventas/List_Detalle.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Telefonos.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/DetalleVentaJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Cliente.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/BonosJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/exceptions/IllegalOrphanException.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/ventas/Ventas.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/ventas/DetalleFactura.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/EmpleadosJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/principal/fventa.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/controladores/CategoriaJpaController.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/BonosOtorgados.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/interfaces/Filtrar.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/principal/Main.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/ProductoPK.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Bonos.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/singleton/singleton.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/inventario/Inventario.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Factura.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/principal/BonosEInfracciones.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/principal/Empleados.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Empleados.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/entidades/Infracciones.java
+/home/felipe/Documentos/programacion/NetBeansProjects/Analisis-II/src/main/java/principal/finvenario.java

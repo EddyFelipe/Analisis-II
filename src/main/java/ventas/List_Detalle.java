@@ -5,7 +5,7 @@
  */
 package ventas;
 
-import entidades.DetalleVenta;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class List_Detalle implements DetalleFactura{
     
-    List<DetalleVenta> listaventa;
+   
     
     public List_Detalle(){
-      listaventa = new ArrayList<>();
+
     }
     
 

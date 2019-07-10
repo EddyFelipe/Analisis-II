@@ -7,7 +7,7 @@ package controladores;
 
 import controladores.exceptions.NonexistentEntityException;
 import controladores.exceptions.PreexistingEntityException;
-import entidades.Bonosotorgados;
+import entidades.BonosOtorgados;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,29 +19,29 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author igeni
+ * @author felipe
  */
-public class BonosotorgadosJpaController implements Serializable {
+public class BonosOtorgadosJpaController implements Serializable {
 
-    public BonosotorgadosJpaController(EntityManager emf) {
+    public BonosOtorgadosJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManager emf = null;
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf;
+        return emf.createEntityManager();
     }
 
-    public void create(Bonosotorgados bonosotorgados) throws PreexistingEntityException, Exception {
+    public void create(BonosOtorgados bonosOtorgados) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(bonosotorgados);
+            em.persist(bonosOtorgados);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findBonosotorgados(bonosotorgados.getId()) != null) {
-                throw new PreexistingEntityException("Bonosotorgados " + bonosotorgados + " already exists.", ex);
+            if (findBonosOtorgados(bonosOtorgados.getId()) != null) {
+                throw new PreexistingEntityException("BonosOtorgados " + bonosOtorgados + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -51,19 +51,19 @@ public class BonosotorgadosJpaController implements Serializable {
         }
     }
 
-    public void edit(Bonosotorgados bonosotorgados) throws NonexistentEntityException, Exception {
+    public void edit(BonosOtorgados bonosOtorgados) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            bonosotorgados = em.merge(bonosotorgados);
+            bonosOtorgados = em.merge(bonosOtorgados);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = bonosotorgados.getId();
-                if (findBonosotorgados(id) == null) {
-                    throw new NonexistentEntityException("The bonosotorgados with id " + id + " no longer exists.");
+                Integer id = bonosOtorgados.getId();
+                if (findBonosOtorgados(id) == null) {
+                    throw new NonexistentEntityException("The bonosOtorgados with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -79,14 +79,14 @@ public class BonosotorgadosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Bonosotorgados bonosotorgados;
+            BonosOtorgados bonosOtorgados;
             try {
-                bonosotorgados = em.getReference(Bonosotorgados.class, id);
-                bonosotorgados.getId();
+                bonosOtorgados = em.getReference(BonosOtorgados.class, id);
+                bonosOtorgados.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The bonosotorgados with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The bonosOtorgados with id " + id + " no longer exists.", enfe);
             }
-            em.remove(bonosotorgados);
+            em.remove(bonosOtorgados);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -95,19 +95,19 @@ public class BonosotorgadosJpaController implements Serializable {
         }
     }
 
-    public List<Bonosotorgados> findBonosotorgadosEntities() {
-        return findBonosotorgadosEntities(true, -1, -1);
+    public List<BonosOtorgados> findBonosOtorgadosEntities() {
+        return findBonosOtorgadosEntities(true, -1, -1);
     }
 
-    public List<Bonosotorgados> findBonosotorgadosEntities(int maxResults, int firstResult) {
-        return findBonosotorgadosEntities(false, maxResults, firstResult);
+    public List<BonosOtorgados> findBonosOtorgadosEntities(int maxResults, int firstResult) {
+        return findBonosOtorgadosEntities(false, maxResults, firstResult);
     }
 
-    private List<Bonosotorgados> findBonosotorgadosEntities(boolean all, int maxResults, int firstResult) {
+    private List<BonosOtorgados> findBonosOtorgadosEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Bonosotorgados.class));
+            cq.select(cq.from(BonosOtorgados.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -119,20 +119,20 @@ public class BonosotorgadosJpaController implements Serializable {
         }
     }
 
-    public Bonosotorgados findBonosotorgados(Integer id) {
+    public BonosOtorgados findBonosOtorgados(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Bonosotorgados.class, id);
+            return em.find(BonosOtorgados.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getBonosotorgadosCount() {
+    public int getBonosOtorgadosCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Bonosotorgados> rt = cq.from(Bonosotorgados.class);
+            Root<BonosOtorgados> rt = cq.from(BonosOtorgados.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

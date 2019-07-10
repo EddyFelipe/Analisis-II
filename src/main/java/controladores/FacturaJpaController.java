@@ -12,6 +12,7 @@ import entidades.FacturaPK;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,15 +24,14 @@ import javax.persistence.criteria.Root;
  */
 public class FacturaJpaController implements Serializable {
 
-    public FacturaJpaController(EntityManager emf) {
-         this.emf = emf;
+    public FacturaJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
     }
-    private EntityManager emf = null;
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf;
+        return emf.createEntityManager();
     }
-
 
     public void create(Factura factura) throws PreexistingEntityException, Exception {
         if (factura.getFacturaPK() == null) {

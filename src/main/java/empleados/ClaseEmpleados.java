@@ -23,9 +23,9 @@ public class ClaseEmpleados implements Filtrar{
     @Override
     public List buscarObjects(Object obj) {
         EntityManager em = singleton.getConnection();
-        EmpleadosJpaController ContEmpleados = new EmpleadosJpaController(em);
+       // EmpleadosJpaController ContEmpleados = new EmpleadosJpaController(em);
         List<Empleados> lista = null;
-        if (String.valueOf(obj).equals(""))
+      /*  if (String.valueOf(obj).equals(""))
         {
             Object O[] = null;
             lista = ContEmpleados.findEmpleadosEntities();
@@ -36,7 +36,7 @@ public class ClaseEmpleados implements Filtrar{
         {
             Query filtEmpleados = em.createNativeQuery("SELECT id_empleados, nombre, apellido, estado, direccion, usuario FROM empleados WHERE nombre like '?%'");
             lista = filtEmpleados.getResultList();
-        }
+        }*/
         return lista;
     }
     
