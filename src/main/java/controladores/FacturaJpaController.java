@@ -37,21 +37,21 @@ public class FacturaJpaController implements Serializable {
         if (factura.getFacturaPK() == null) {
             factura.setFacturaPK(new FacturaPK());
         }
-        EntityManager em = null;
+       // EntityManager em = null;
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(factura);
-            em.getTransaction().commit();
+          //  emf = getEntityManager();
+            emf.getTransaction().begin();
+            emf.persist(factura);
+            emf.getTransaction().commit();
         } catch (Exception ex) {
             if (findFactura(factura.getFacturaPK()) != null) {
                 throw new PreexistingEntityException("Factura " + factura + " already exists.", ex);
             }
             throw ex;
         } finally {
-            if (em != null) {
-                em.close();
-            }
+            //if (em != null) {
+             //   em.close();
+           // }
         }
     }
 
@@ -96,6 +96,15 @@ public class FacturaJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+        }
+    }
+    
+      public int findMaxid(){
+        try{
+        Query query = emf.createNamedQuery("Factura.findLastInsert",Factura.class);  
+        return (int)query.getSingleResult();
+        } finally{
+          //emf.close();
         }
     }
 

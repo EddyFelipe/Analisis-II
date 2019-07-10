@@ -36,21 +36,21 @@ public class DetalleVentaJpaController implements Serializable {
         if (detalleVenta.getDetalleVentaPK() == null) {
             detalleVenta.setDetalleVentaPK(new DetalleVentaPK());
         }
-        EntityManager em = null;
+       // EntityManager em = null;
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(detalleVenta);
-            em.getTransaction().commit();
+           // em = getEntityManager();
+            emf.getTransaction().begin();
+            emf.persist(detalleVenta);
+            emf.getTransaction().commit();
         } catch (Exception ex) {
             if (findDetalleVenta(detalleVenta.getDetalleVentaPK()) != null) {
                 throw new PreexistingEntityException("DetalleVenta " + detalleVenta + " already exists.", ex);
             }
             throw ex;
         } finally {
-            if (em != null) {
+          /*  if (em != null) {
                 em.close();
-            }
+            }*/
         }
     }
 

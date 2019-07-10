@@ -5,7 +5,22 @@
  */
 package principal;
 
+import controladores.ClienteJpaController;
+import controladores.ProductoJpaController;
+import entidades.Cliente;
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import ventas.List_Detalle;
+import ventas.*;
+import entidades.DetalleVenta;
+import entidades.Producto;
+import entidades.ProductoPK;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 /**
  *
@@ -16,8 +31,15 @@ public class fventa extends javax.swing.JPanel {
     /**
      * Creates new form fventa
      */
+     private ventas.Ventas ventas;
+     private ventas.List_Detalle detallfactura;
+    
     public fventa() {
         initComponents();
+        
+        ventas = new Ventas(); // Sirve como la funcion main de ventas, contiene los métdos necesarios para que ventas funcione
+        detallfactura = new List_Detalle();
+        pnFilter.setVisible(false);
     }
 
     /**
@@ -29,6 +51,8 @@ public class fventa extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PopMenu = new javax.swing.JPopupMenu();
+        eliminar = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         sepNombre = new javax.swing.JSeparator();
@@ -39,6 +63,9 @@ public class fventa extends javax.swing.JPanel {
         txtDireccion = new javax.swing.JTextField();
         sepNit = new javax.swing.JSeparator();
         txtNit = new javax.swing.JTextField();
+        pnFilter = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ListFilter = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbFactura = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
@@ -51,8 +78,13 @@ public class fventa extends javax.swing.JPanel {
         btnAceptar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        lbTotal = new javax.swing.JLabel();
+
+        eliminar.setText("jMenuItem1");
+        PopMenu.add(eliminar);
 
         setBackground(new java.awt.Color(36, 41, 46));
+        setForeground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -104,17 +136,52 @@ public class fventa extends javax.swing.JPanel {
         txtNit.setBorder(null);
         add(txtNit, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 40, 190, 36));
 
+        pnFilter.setBackground(new java.awt.Color(0, 136, 204));
+        pnFilter.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ListFilter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ListFilterMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(ListFilter);
+
+        pnFilter.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 130));
+
+        add(pnFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 158, 350, 128));
+
         tbFactura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-
+                "Nombre", "Descripcion", "Cantidad", "Total"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbFactura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tbFacturaMouseReleased(evt);
+            }
+        });
+        tbFactura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbFacturaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbFacturaKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbFactura);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 630, 300));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 630, 300));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -136,7 +203,12 @@ public class fventa extends javax.swing.JPanel {
         txtBuscar.setAlignmentX(2.0F);
         txtBuscar.setAlignmentY(0.0F);
         txtBuscar.setBorder(null);
-        add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 350, 36));
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyPressed(evt);
+            }
+        });
+        add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 110, 345, 36));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -167,17 +239,27 @@ public class fventa extends javax.swing.JPanel {
                 btnAceptarMouseExited(evt);
             }
         });
-        add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 120, 90, 50));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+        add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 290, 90, 50));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Total a pagar");
+        jLabel8.setText("Total a pagar:");
         add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 470, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Descuento:");
         add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 440, -1, -1));
+
+        lbTotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbTotal.setForeground(new java.awt.Color(255, 255, 255));
+        lbTotal.setText(".");
+        add(lbTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 470, 100, 20));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
@@ -190,9 +272,115 @@ public class fventa extends javax.swing.JPanel {
           btnAceptar.setBackground(new Color(0, 136, 204));
     }//GEN-LAST:event_btnAceptarMouseExited
 
+    private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
+        // TODO add your handling code here:
+        if(txtBuscar.getText().length() !=0 ){
+            ListFilter.setModel(ventas.filtradoPoducto(txtBuscar.getText(), singleton.singleton.getConnection()));
+            pnFilter.setVisible(true);
+        }
+        else 
+            pnFilter.setVisible(false);
+    }//GEN-LAST:event_txtBuscarKeyPressed
+
+    private void ListFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListFilterMouseClicked
+        // TODO add your handling code here:
+        int index = ListFilter.getSelectedIndex();
+        Object captado = JOptionPane.showInputDialog("CANTIDAD A VENDER");
+        if( captado != null && !captado.toString().equals("")){
+            int cantidad = Integer.parseInt(captado.toString());
+            if( cantidad != 0){
+                
+                 DefaultTableModel model = (DefaultTableModel)tbFactura.getModel();
+                 Producto prd = ventas.obtenerProducto(index);
+                 
+                 if( cantidad <= prd.getCantidad()){
+                 
+                 // Encapsulacion  de los datos de ventas
+                 DetalleVenta dt1 = new DetalleVenta(prd.getProductoPK().getIdproducto(),prd.getProductoPK().getIdcategoria());
+                 dt1.setCantidad(Integer.parseInt(captado.toString()));
+                 dt1.setDescripcion("Unidad");
+                 dt1.setSubTotal(dt1.getCantidad()*prd.getPrecioVenta());
+                 detallfactura.registart(dt1); // se registra un detalle de venta 
+                 
+                 // se actualiza el modelo en el jtable
+                 model.addRow(new Object[]{prd.getNombre(),dt1.getDescripcion(),dt1.getCantidad(),dt1.getSubTotal()});
+                 
+                 lbTotal.setText(detallfactura.getTotal()+"");
+                 txtBuscar.setText("");
+                 pnFilter.setVisible(false);
+                 
+                 }
+                 else 
+                      JOptionPane.showMessageDialog(null, "Ya no hay existencia");
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Agregue una cantidad valida");
+        }
+        
+        
+    }//GEN-LAST:event_ListFilterMouseClicked
+
+    private void tbFacturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbFacturaKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tbFacturaKeyPressed
+
+    private void tbFacturaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbFacturaKeyReleased
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            int catindad = Integer.parseInt(tbFactura.getValueAt(tbFactura.getSelectedRow(), 2).toString());
+            DetalleVenta detalle = detallfactura.getDetalleVenta(tbFactura.getSelectedRow());
+            ProductoJpaController controller = new ProductoJpaController(singleton.singleton.getConnection());
+            Producto producto = controller.findProducto(new ProductoPK(detalle.getDetalleVentaPK().getIdproducto(), detalle.getDetalleVentaPK().getIdfactura()));
+            
+            if( catindad <= producto.getCantidad()){
+                detallfactura.modificar(catindad, tbFactura.getSelectedRow());
+                tbFactura.setValueAt(detallfactura.getSbutotal(tbFactura.getSelectedRow()),tbFactura.getSelectedRow() , 3);
+                lbTotal.setText(detallfactura.getTotal()+"");
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Ya no hay existencia");
+        }
+        
+        
+    }//GEN-LAST:event_tbFacturaKeyReleased
+
+    private void tbFacturaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbFacturaMouseReleased
+         if(evt.isPopupTrigger()){       
+            PopMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_tbFacturaMouseReleased
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+       // ClienteJpaController controllercliente = new ClienteJpaController(singleton.singleton.getConnection());
+       if( !txtNombre.getText().equals("") && detallfactura.getLisDetalle().size() > 0){
+                String nit = txtNit.getText().equals("") ? "c/f" : txtNit.getText();
+                String direccion = txtDireccion.getText().equals("") ? "ciudad" : txtDireccion.getText();
+                Cliente cliente1 = new Cliente();
+                cliente1.setNombre(txtNombre.getText());
+                cliente1.setNit(nit);
+                cliente1.setDireccion(direccion);
+                //controllercliente.create(cliente1);
+                List<Object> objects = new ArrayList<Object>();
+                objects.add(cliente1);
+                objects.add(detallfactura);
+
+                if(ventas.registrarObject(objects, singleton.singleton.getConnection()))
+                    JOptionPane.showMessageDialog(null, "La venta se realizo con exito");
+                 else
+                    JOptionPane.showMessageDialog(null, "Hubo error en la creacion de la venta");
+       }
+       else
+           JOptionPane.showMessageDialog(null, "Favor de llenar los campos necesarios nombre, factura");
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> ListFilter;
+    private javax.swing.JPopupMenu PopMenu;
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JMenuItem eliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -203,6 +391,9 @@ public class fventa extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbTotal;
+    private javax.swing.JPanel pnFilter;
     private javax.swing.JSeparator sepBuscar;
     private javax.swing.JSeparator sepDireccion;
     private javax.swing.JSeparator sepDireccion1;

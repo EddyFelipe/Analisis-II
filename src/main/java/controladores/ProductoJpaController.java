@@ -67,9 +67,9 @@ public class ProductoJpaController implements Serializable {
             }
             throw ex;
         } finally {
-            if (em != null) {
+            /*if (em != null) {
                 em.close();
-            }
+            }*/
         }
     }
 
@@ -128,8 +128,20 @@ public class ProductoJpaController implements Serializable {
         try {
             return em.find(Producto.class, id);
         } finally {
-            em.close();
+            //em.close();
         }
+    }
+    
+    public List findCategorList(int idCategoria){
+        Query query = emf.createNamedQuery("Producto.findByIdcategoria",Producto.class);
+        query.setParameter("idcategoria", idCategoria);
+        return query.getResultList();
+    }
+    
+    public List findFilter(String filter){
+        Query query = emf.createNamedQuery("Producto.findFilter",Producto.class);
+        query.setParameter("nombrefilter", filter+"%");
+        return query.getResultList();
     }
 
     public int getProductoCount() {

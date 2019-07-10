@@ -3,24 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package inventario;
+package ventas;
 
-import controladores.ProductoJpaController;
 import interfaces.Filtrar;
-import entidades.*;
 import java.util.List;
 import javax.persistence.EntityManager;
+import controladores.ProductoJpaController;
+
 /**
  *
  * @author felipe
  */
-public class BuscarProducto implements Filtrar{
+public class FiltrarProductoNombre implements Filtrar{
 
     @Override
     public List buscarObjects(Object obj, EntityManager em) {
-        
         ProductoJpaController controller = new ProductoJpaController(em);
-       return controller.findCategorList((int)obj);
+        return controller.findFilter(obj.toString()+"%");  
     }
     
 }
