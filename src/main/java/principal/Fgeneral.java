@@ -13,12 +13,12 @@ import javax.swing.JOptionPane;
  *
  * @author felipe
  */
-public class fgeneral extends javax.swing.JFrame {
+public class Fgeneral extends javax.swing.JFrame {
 
     /**
      * Creates new form fgeneral
      */
-    public fgeneral() {
+    public Fgeneral() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -256,12 +256,12 @@ public class fgeneral extends javax.swing.JFrame {
 
     private void btnMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinimizeActionPerformed
         // TODO add your handling code here:
-        this.setState(fgeneral.ICONIFIED);
+        this.setState(Fgeneral.ICONIFIED);
     }//GEN-LAST:event_btnMinimizeActionPerformed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         // TODO add your handling code here:
-        fventa venta = new fventa();
+        Fventa venta = new Fventa();
         venta.setSize(1010,600);
         venta.setLocation(0, 0);
         contenedor.removeAll();
@@ -273,7 +273,7 @@ public class fgeneral extends javax.swing.JFrame {
 
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
         // TODO add your handling code here:
-        finvenario in = new finvenario();
+        Finvenario in = new Finvenario();
         in.setSize(1010,600);
         in.setLocation(0, 0);
         contenedor.removeAll();
@@ -319,20 +319,21 @@ public class fgeneral extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Fgeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new fgeneral().setVisible(true);
+                new Fgeneral().setVisible(true);
             }
         });
     }

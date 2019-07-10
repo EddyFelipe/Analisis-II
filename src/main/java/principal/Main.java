@@ -23,7 +23,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        fgeneral fg = new fgeneral();
+        Fgeneral fg = new Fgeneral();
         fg.setVisible(true);
         //EmpleadosJpaController ejc = new EmpleadosJpaController(singleton.getConnection());
         //Empleados empleado = new Empleados();

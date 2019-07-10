@@ -7,7 +7,6 @@ package principal;
 
 import java.awt.Color;
 import entidades.*;
-import inventario.Inventario;
 import javax.swing.JOptionPane;
 import singleton.singleton;
 
@@ -15,12 +14,12 @@ import singleton.singleton;
  *
  * @author felipe
  */
-public class finvenario extends javax.swing.JPanel {
+public class Finvenario extends javax.swing.JPanel {
 
     /**
      * Creates new form finvenario
      */
-    public finvenario() {
+    public Finvenario() {
         initComponents();
     }
 

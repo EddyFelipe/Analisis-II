@@ -11,12 +11,12 @@ import java.awt.Color;
  *
  * @author felipe
  */
-public class fventa extends javax.swing.JPanel {
+public class Fventa extends javax.swing.JPanel {
 
     /**
      * Creates new form fventa
      */
-    public fventa() {
+    public Fventa() {
         initComponents();
     }
 
