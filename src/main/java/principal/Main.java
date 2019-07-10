@@ -5,6 +5,10 @@
  */
 package principal;
 
+import controladores.EmpleadosJpaController;
+import java.util.List;
+import singleton.singleton;
+
 /**
  *
  * @author felipe
@@ -16,8 +20,14 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        fgeneral fg = new fgeneral();
-        fg.setVisible(true);
+        //fgeneral fg = new fgeneral();
+        //fg.setVisible(true);
+        EmpleadosJpaController ejc = new EmpleadosJpaController(singleton.getConnection());
+        List<entidades.Empleados> query = ejc.findEmpleadosEntities();
+        for (entidades.Empleados emp : query) {
+            System.out.println(emp);
+        }
+        
     }
     
 }

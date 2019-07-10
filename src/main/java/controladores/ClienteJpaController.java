@@ -31,15 +31,15 @@ public class ClienteJpaController implements Serializable {
     }
 
     public void create(Cliente cliente) {
-        EntityManager em = null;
+      //  EntityManager em = null;
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(cliente);
-            em.getTransaction().commit();
+           // em = getEntityManager();
+            emf.getTransaction().begin();
+            emf.persist(cliente);
+            emf.getTransaction().commit();
         } finally {
-            if (em != null) {
-                em.close();
+            if (emf != null) {
+                emf.close();
             }
         }
     }

@@ -13,11 +13,11 @@ import java.util.List;
  *
  * @author felipe
  */
-public class Ventas  implements  Filtrar{
+public class Ventas  implements Filtrar{
 
     @Override
-    public List filtrarObject(String nombre) {
-       List<Object> query = new ArrayList<>();
+    public List buscarObjects(Object obj) {
+        List<Object> query = new ArrayList<>();
        
        
        return query;

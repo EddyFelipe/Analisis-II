@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface Filtrar {
     
-    public List filtrarObject(String nombre);
+    public List buscarObjects(Object obj);
     
 }

@@ -7,11 +7,17 @@
     <class>entidades.DetalleVenta</class>
     <class>entidades.Cliente</class>
     <class>entidades.Factura</class>
+    <class>entidades.Empleados</class>
+    <class>entidades.Telefonos</class>
+    <class>entidades.Infracciones</class>
+    <class>entidades.Bonos</class>
+    <class>entidades.Infraccionesotorgadas</class>
+    <class>entidades.Bonosotorgados</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/continental?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/continental?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.password" value="bases"/>
     </properties>
   </persistence-unit>
 </persistence>
