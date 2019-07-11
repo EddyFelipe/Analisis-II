@@ -5,6 +5,14 @@
  */
 package principal;
 
+import entidades.*;
+import controladores.*;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 /**
  *
  * @author felipe
@@ -15,9 +23,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        fgeneral fg = new fgeneral();
-        fg.setVisible(true);
+        //try {
+            // TODO code application logic here
+          fgeneral fg = new fgeneral();
+            fg.setVisible(true);
+            
     }
     
 }

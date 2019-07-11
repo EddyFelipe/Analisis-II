@@ -34,23 +34,18 @@ public class ProductoJpaController implements Serializable {
 
 
     public void create(Producto producto) throws PreexistingEntityException, Exception {
-        if (producto.getProductoPK() == null) {
-            producto.setProductoPK(new ProductoPK());
-        }
-        EntityManager em = null;
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(producto);
-            em.getTransaction().commit();
+            emf.getTransaction().begin();
+            emf.persist(producto);
+            emf.getTransaction().commit();
         } catch (Exception ex) {
             if (findProducto(producto.getProductoPK()) != null) {
                 throw new PreexistingEntityException("Producto " + producto + " already exists.", ex);
             }
             throw ex;
         } finally {
-            if (em != null) {
-                em.close();
+            if (emf != null) {
+                emf.close();
             }
         }
     }
@@ -72,9 +67,9 @@ public class ProductoJpaController implements Serializable {
             }
             throw ex;
         } finally {
-            if (em != null) {
+            /*if (em != null) {
                 em.close();
-            }
+            }*/
         }
     }
 
@@ -122,14 +117,31 @@ public class ProductoJpaController implements Serializable {
             em.close();
         }
     }
+    
+   /* public List<Producto> findProductos(String nombre){
+       //Query q = emf.createNamedQuery("SELECT ");
+    }*/
+    
 
     public Producto findProducto(ProductoPK id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Producto.class, id);
         } finally {
-            em.close();
+            //em.close();
         }
+    }
+    
+    public List findCategorList(int idCategoria){
+        Query query = emf.createNamedQuery("Producto.findByIdcategoria",Producto.class);
+        query.setParameter("idcategoria", idCategoria);
+        return query.getResultList();
+    }
+    
+    public List findFilter(String filter){
+        Query query = emf.createNamedQuery("Producto.findFilter",Producto.class);
+        query.setParameter("nombrefilter", filter+"%");
+        return query.getResultList();
     }
 
     public int getProductoCount() {

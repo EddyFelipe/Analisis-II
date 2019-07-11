@@ -7,6 +7,11 @@
     <class>entidades.DetalleVenta</class>
     <class>entidades.Cliente</class>
     <class>entidades.Factura</class>
+    <class>entidades.Bonos</class>
+    <class>entidades.BonosOtorgados</class>
+    <class>entidades.Empleados</class>
+    <class>entidades.Infracciones</class>
+    <class>entidades.InfraccionesOtorgadas</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/continental?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value=""/>

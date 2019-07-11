@@ -5,11 +5,20 @@
  */
 package principal;
 
+import controladores.ProductoJpaController;
 import java.awt.Color;
 import entidades.*;
 import inventario.Inventario;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import singleton.singleton;
+
 
 /**
  *
@@ -20,8 +29,15 @@ public class finvenario extends javax.swing.JPanel {
     /**
      * Creates new form finvenario
      */
+    private boolean  actualizar;
+    private Producto producto;
+    Inventario inventario;
     public finvenario() {
         initComponents();
+        inventario = new Inventario();
+        cbCategoria.setModel(inventario.listCategoria(1, singleton.getConnection()));
+        actualizar = false;
+        TablaProductos();
     }
 
     /**
@@ -37,7 +53,7 @@ public class finvenario extends javax.swing.JPanel {
         categoria = new javax.swing.JTabbedPane();
         pnProducto = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbCategoria = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -46,12 +62,11 @@ public class finvenario extends javax.swing.JPanel {
         txtCanProducto = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbProductos = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         txtPrecioProducto = new javax.swing.JTextField();
-        pnCategoria = new javax.swing.JPanel();
 
         jTextField3.setText("jTextField3");
 
@@ -66,9 +81,19 @@ public class finvenario extends javax.swing.JPanel {
         jLabel1.setText("Seleccionar categoria:");
         pnProducto.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 37, -1, -1));
 
-        jComboBox1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        pnProducto.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 36, 215, -1));
+        cbCategoria.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        cbCategoria.setForeground(new java.awt.Color(255, 255, 255));
+        cbCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbCategoriaMouseClicked(evt);
+            }
+        });
+        cbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCategoriaActionPerformed(evt);
+            }
+        });
+        pnProducto.add(cbCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 36, 215, -1));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -105,6 +130,7 @@ public class finvenario extends javax.swing.JPanel {
 
         btnAceptar.setBackground(new java.awt.Color(0, 136, 204));
         btnAceptar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnAceptar.setForeground(new java.awt.Color(255, 255, 255));
         btnAceptar.setText("Aceptar");
         btnAceptar.setBorder(null);
         btnAceptar.setFocusPainted(false);
@@ -123,7 +149,12 @@ public class finvenario extends javax.swing.JPanel {
         });
         pnProducto.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 160, -1, 47));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbProductos = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex,int colIndex){
+                return false;
+            }
+        };
+        tbProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -131,7 +162,12 @@ public class finvenario extends javax.swing.JPanel {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tbProductos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbProductosKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbProductos);
 
         pnProducto.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(53, 236, 835, 327));
         pnProducto.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 153, 220, 5));
@@ -146,21 +182,6 @@ public class finvenario extends javax.swing.JPanel {
 
         categoria.addTab("Producto", pnProducto);
 
-        pnCategoria.setBackground(new java.awt.Color(36, 41, 46));
-
-        javax.swing.GroupLayout pnCategoriaLayout = new javax.swing.GroupLayout(pnCategoria);
-        pnCategoria.setLayout(pnCategoriaLayout);
-        pnCategoriaLayout.setHorizontalGroup(
-            pnCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1008, Short.MAX_VALUE)
-        );
-        pnCategoriaLayout.setVerticalGroup(
-            pnCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
-        );
-
-        categoria.addTab("Categoria", pnCategoria);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,46 +194,111 @@ public class finvenario extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tbProductosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbProductosKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            DefaultTableModel model = (DefaultTableModel)tbProductos.getModel();
+            JOptionPane.showMessageDialog(null, "Actu "+model.getValueAt(tbProductos.getSelectedRow(), 2));
+        }
+    }//GEN-LAST:event_tbProductosKeyPressed
+
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        
-        if( !txtCanProducto.getText().equals("") && 
-            !txtNomProducto.getText().equals("") && 
+
+        if( !txtCanProducto.getText().equals("") &&
+            !txtNomProducto.getText().equals("") &&
             !txtPrecioProducto.getText().equals("")){
-              
-            Producto producto1 = new Producto(0,1);
-            producto1.setNombre(txtNomProducto.getText());
-            producto1.setCantidad(Integer.parseInt(txtCanProducto.getText()));
-            producto1.setPrecioVenta(Float.parseFloat(txtPrecioProducto.getText()));
-            
-            inventario.Inventario in = new Inventario();
-            
-            if(in.registrarObject(producto1,singleton.getConnection()))
-                JOptionPane.showMessageDialog(null, "Producto insertado");
-            
+
+            if(!actualizar){
+
+                Producto producto1 = new Producto(0,(cbCategoria.getSelectedIndex()+1));
+                producto1.setNombre(txtNomProducto.getText());
+                producto1.setCantidad(Integer.parseInt(txtCanProducto.getText()));
+                producto1.setPrecioVenta(Float.parseFloat(txtPrecioProducto.getText()));
+
+                try {
+
+                    if(inventario.registrarObject(producto1,singleton.getConnection()))
+                    JOptionPane.showMessageDialog(null, "Producto insertado");
+
+                    limpiearTextbox();
+                    tbProductos.setModel(inventario.listProducto(cbCategoria.getSelectedIndex()+1,singleton.getConnection()));
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Fallo en la insercion");
+                }
+            }else{
+                try {
+                    EntityManager em = singleton.getConnection();
+                    ProductoJpaController controller = new ProductoJpaController(em);
+                    producto.setNombre(txtNomProducto.getText());
+                    producto.setCantidad(Integer.parseInt(txtCanProducto.getText()));
+                    producto.setPrecioVenta(Float.parseFloat(txtPrecioProducto.getText()));
+                    controller.edit(producto);
+
+                    tbProductos.setModel(inventario.listProducto(cbCategoria.getSelectedIndex()+1,em));
+                    em.close();
+                    actualizar = false;
+                    btnAceptar.setText("Aceptar");
+                    limpiearTextbox();
+                    JOptionPane.showMessageDialog(null, "Producto modificado");
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Falla en la modificacion");
+                }
+            }
+
         }
         else
-            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos");
-   
-        
-        
+        JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos");
     }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
-        // TODO add your handling code here:
-        btnAceptar.setBackground(Color.red);
-    }//GEN-LAST:event_btnAceptarMouseEntered
 
     private void btnAceptarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseExited
         // TODO add your handling code here:
         btnAceptar.setBackground(new Color(0,136,204));
     }//GEN-LAST:event_btnAceptarMouseExited
 
+    private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
+        // TODO add your handling code here:
+        btnAceptar.setBackground(Color.red);
+    }//GEN-LAST:event_btnAceptarMouseEntered
+
+    private void cbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCategoriaActionPerformed
+        // TODO add your handling code here:
+        tbProductos.setModel(inventario.listProducto(cbCategoria.getSelectedIndex()+1,singleton.getConnection()));
+    }//GEN-LAST:event_cbCategoriaActionPerformed
+
+    private void cbCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbCategoriaMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cbCategoriaMouseClicked
+
+        //Funcion para dar doble click sobre el jtable producto
+    private void TablaProductos(){
+     tbProductos.addMouseListener(new MouseAdapter() {
+           @Override
+            public void mouseClicked(MouseEvent e){
+           
+              if(e.getClickCount() == 2){
+                producto = inventario.getProducto(tbProductos.getSelectedRow());
+                txtNomProducto.setText(producto.getNombre());
+                txtCanProducto.setText(producto.getCantidad()+"");
+                txtPrecioProducto.setText(producto.getPrecioVenta()+"");
+                actualizar = true;
+                btnAceptar.setText("Actualizar");
+              }
+          }
+        });
+    }    
+    private void limpiearTextbox(){
+      txtCanProducto.setText("");
+      txtNomProducto.setText("");
+      txtPrecioProducto.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JTabbedPane categoria;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -222,10 +308,9 @@ public class finvenario extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JPanel pnCategoria;
     private javax.swing.JPanel pnProducto;
+    private javax.swing.JTable tbProductos;
     private javax.swing.JTextField txtCanProducto;
     private javax.swing.JTextField txtNomProducto;
     private javax.swing.JTextField txtPrecioProducto;

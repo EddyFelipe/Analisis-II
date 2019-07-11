@@ -15,26 +15,45 @@ import java.util.List;
  */
 public class List_Detalle implements DetalleFactura{
     
-    List<DetalleVenta> listaventa;
+    private List<DetalleVenta> listaventa;
+    private double  total;
     
     public List_Detalle(){
       listaventa = new ArrayList<>();
+      total = 0;
     }
-    
+    @Override
+    public void registrar(Object detalle) {
+        DetalleVenta dt = (DetalleVenta)detalle;
+        total += dt.getSubTotal();
+       listaventa.add(dt);
+    }
 
     @Override
-    public void registart(DetalleFactura detalle) {
-       //listaventa.add(detalle);
-    }
-
-    @Override
-    public void modificar(DetalleFactura detall, int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void modificar(Object detalle, int index) {
+       DetalleVenta dt = listaventa.get(index);
+       float precio = dt.getSubTotal()/dt.getCantidad();
+       total -= dt.getSubTotal();
+       dt.setCantidad(Integer.parseInt(detalle.toString()));
+       dt.setSubTotal(dt.getCantidad()*precio);
+       total += dt.getSubTotal();
+       
+       listaventa.set(index, dt);
     }
 
     @Override
     public boolean eliminar(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try{
+            listaventa.remove(index);
+            return true;
+       } catch (Exception ex){
+         return false; 
+       }
     }
     
+    public List getLisDetalle(){ return listaventa; }
+    public double getTotal(){ return total; }
+    public float getSbutotal(int index){ return listaventa.get(index).getSubTotal(); }
+    public DetalleVenta getDetalleVenta(int index){ return listaventa.get(index); }
+  
 }

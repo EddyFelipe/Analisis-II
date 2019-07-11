@@ -39,7 +39,9 @@ public class fgeneral extends javax.swing.JFrame {
         menu = new javax.swing.JPanel();
         btnVentas = new javax.swing.JButton();
         btnInventario = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         contenedor = new javax.swing.JPanel();
+        lblIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -134,58 +136,68 @@ public class fgeneral extends javax.swing.JFrame {
 
         menu.setBackground(new java.awt.Color(0, 136, 204));
         menu.setPreferredSize(new java.awt.Dimension(70, 600));
+        menu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnVentas.setText("Ventas");
+        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/venta.png"))); // NOI18N
         btnVentas.setBorder(null);
         btnVentas.setBorderPainted(false);
+        btnVentas.setContentAreaFilled(false);
+        btnVentas.setFocusPainted(false);
+        btnVentas.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Venta2.png"))); // NOI18N
+        btnVentas.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Venta1.png"))); // NOI18N
         btnVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVentasActionPerformed(evt);
             }
         });
+        menu.add(btnVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 50, 50));
 
-        btnInventario.setText("Inventario");
+        btnInventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/productos.png"))); // NOI18N
         btnInventario.setBorder(null);
         btnInventario.setBorderPainted(false);
+        btnInventario.setContentAreaFilled(false);
+        btnInventario.setFocusPainted(false);
+        btnInventario.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Productos3.png"))); // NOI18N
+        btnInventario.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/productos1.png"))); // NOI18N
         btnInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInventarioActionPerformed(evt);
             }
         });
+        menu.add(btnInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 50, 50));
 
-        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
-        menu.setLayout(menuLayout);
-        menuLayout.setHorizontalGroup(
-            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(menuLayout.createSequentialGroup()
-                .addComponent(btnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        menuLayout.setVerticalGroup(
-            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(menuLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(462, Short.MAX_VALUE))
-        );
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empleados.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        menu.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 70, -1));
 
         getContentPane().add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
 
         contenedor.setBackground(new java.awt.Color(36, 41, 46));
         contenedor.setPreferredSize(new java.awt.Dimension(1010, 600));
 
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/continental.png"))); // NOI18N
+
         javax.swing.GroupLayout contenedorLayout = new javax.swing.GroupLayout(contenedor);
         contenedor.setLayout(contenedorLayout);
         contenedorLayout.setHorizontalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1010, Short.MAX_VALUE)
+            .addGroup(contenedorLayout.createSequentialGroup()
+                .addGap(138, 138, 138)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         contenedorLayout.setVerticalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(contenedorLayout.createSequentialGroup()
+                .addGap(96, 96, 96)
+                .addComponent(lblIcon)
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         getContentPane().add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, 600));
@@ -257,6 +269,16 @@ public class fgeneral extends javax.swing.JFrame {
         contenedor.repaint();
     }//GEN-LAST:event_btnInventarioActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FormEmpleados empleados = new FormEmpleados();
+        empleados.setSize(1010,600);
+        empleados.setLocation(0, 0);
+        contenedor.removeAll();
+        contenedor.add(empleados,BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,7 +321,9 @@ public class fgeneral extends javax.swing.JFrame {
     private javax.swing.JButton btnVentas;
     private javax.swing.JPanel contenedor;
     private javax.swing.JPanel encabezado;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JPanel menu;
     // End of variables declaration//GEN-END:variables
 }

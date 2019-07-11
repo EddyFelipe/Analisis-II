@@ -6,6 +6,7 @@
 package interfaces;
 
 import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -13,6 +14,6 @@ import java.util.List;
  */
 public interface Filtrar {
     
-    public List filtrarObject(String nombre);
+    public List buscarObjects(Object obj, EntityManager em);
     
 }
