@@ -15,20 +15,22 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author felipe
+ * @author User
  */
 @Entity
-@Table(name = "bonos")
+@Table(name = "telefonos")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Bonos.findAll", query = "SELECT b FROM Bonos b"),
-    @NamedQuery(name = "Bonos.findById", query = "SELECT b FROM Bonos b WHERE b.id = :id"),
-    @NamedQuery(name = "Bonos.findByBono", query = "SELECT b FROM Bonos b WHERE b.bono = :bono"),
-    @NamedQuery(name = "Bonos.findByAumento", query = "SELECT b FROM Bonos b WHERE b.aumento = :aumento"),
-    @NamedQuery(name = "Bonos.findByDescontinuado", query = "SELECT b FROM Bonos b WHERE b.descontinuado = :descontinuado")})
-public class Bonos implements Serializable {
+    @NamedQuery(name = "Telefonos.findAll", query = "SELECT t FROM Telefonos t"),
+    @NamedQuery(name = "Telefonos.findById", query = "SELECT t FROM Telefonos t WHERE t.id = :id"),
+    @NamedQuery(name = "Telefonos.findByNumero", query = "SELECT t FROM Telefonos t WHERE t.numero = :numero"),
+    @NamedQuery(name = "Telefonos.filtring", query = "SELECT t FROM Telefonos t WHERE t.numero LIKE :numempleado AND t.empleadosId = :empleadoId"),
+    @NamedQuery(name = "Telefonos.encontrar", query = "SELECT t FROM Telefonos t WHERE t.empleadosId = :empleadoId")})
+public class Telefonos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,19 +38,22 @@ public class Bonos implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "bono")
-    private String bono;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "aumento")
-    private Float aumento;
-    @Column(name = "descontinuado")
-    private Short descontinuado;
+    @Column(name = "numero")
+    private String numero;
+    @Basic(optional = false)
+    @Column(name = "empleados_id")
+    private int empleadosId;
 
-    public Bonos() {
+    public Telefonos() {
     }
 
-    public Bonos(Integer id) {
+    public Telefonos(Integer id) {
         this.id = id;
+    }
+
+    public Telefonos(Integer id, int empleadosId) {
+        this.id = id;
+        this.empleadosId = empleadosId;
     }
 
     public Integer getId() {
@@ -59,28 +64,20 @@ public class Bonos implements Serializable {
         this.id = id;
     }
 
-    public String getBono() {
-        return bono;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setBono(String bono) {
-        this.bono = bono;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    public Float getAumento() {
-        return aumento;
+    public int getEmpleadosId() {
+        return empleadosId;
     }
 
-    public void setAumento(Float aumento) {
-        this.aumento = aumento;
-    }
-
-    public Short getDescontinuado() {
-        return descontinuado;
-    }
-
-    public void setDescontinuado(Short descontinuado) {
-        this.descontinuado = descontinuado;
+    public void setEmpleadosId(int empleadosId) {
+        this.empleadosId = empleadosId;
     }
 
     @Override
@@ -93,10 +90,10 @@ public class Bonos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Bonos)) {
+        if (!(object instanceof Telefonos)) {
             return false;
         }
-        Bonos other = (Bonos) object;
+        Telefonos other = (Telefonos) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +102,7 @@ public class Bonos implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.Bonos[ id=" + id + " ]";
+        return "entidades.Telefonos[ id=" + id + " ]";
     }
     
 }

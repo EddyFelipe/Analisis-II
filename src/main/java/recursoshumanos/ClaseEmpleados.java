@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package empleados;
+package recursoshumanos;
 
 import controladores.EmpleadosJpaController;
+import controladores.TelefonosJpaController;
 import interfaces.Filtrar;
 import java.util.List;
 import entidades.*;
@@ -21,23 +22,6 @@ import interfaces.AccionesBasicas;
  * @author igeni
  */
 public class ClaseEmpleados implements Filtrar, AccionesBasicas{
-
-    
-    public List buscarObjects(Object obj) {
-        EntityManager em = singleton.getConnection();
-        EmpleadosJpaController ContEmpleados = new EmpleadosJpaController(em);
-        List<Empleados> lista = null;
-       if (String.valueOf(obj).equals(""))
-        {
-            Object O[] = null;
-            lista = ContEmpleados.findEmpleadosEntities();
-        }
-        else
-        {
-            lista = ContEmpleados.filtrar(String.valueOf(obj));
-        }
-        return lista;
-    }
 
     @Override
     public boolean registrarObject(Object obj, EntityManager em) {
@@ -62,20 +46,30 @@ public class ClaseEmpleados implements Filtrar, AccionesBasicas{
         }
     }
 
-    public boolean eliminarObject(Object obj, EntityManager em, int id) {
-        try{
-            EmpleadosJpaController controlador = new EmpleadosJpaController(em);
-            controlador.edit((Empleados)obj);
-            return true;
-        }catch(Exception e)
-        {
-            return false;
-        }
-    }
-
     @Override
     public List buscarObjects(Object obj, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EmpleadosJpaController ContEmpleados = new EmpleadosJpaController(em);
+        List<Empleados> lista = null;
+        if (String.valueOf(obj).equals(""))
+            lista = ContEmpleados.findEmpleadosEntities();
+        else
+            lista = ContEmpleados.filtrar(String.valueOf(obj));
+        return lista;
     }
     
+    public Empleados obtenerEmpleado(EntityManager em, int idEmpleado)
+    {
+        EmpleadosJpaController controlador = new EmpleadosJpaController(em);
+        return controlador.findEmpleados(idEmpleado);
+    }
+    
+    public Empleados buscarUsuario(EntityManager em, String usuario) { //Rellenar la tabla de teléfonos de un empleado
+        EmpleadosJpaController controlador = new EmpleadosJpaController(em);
+        List<Empleados> lista = null;
+        lista = controlador.encontrarUsuario(usuario);
+        if (lista.isEmpty())
+            return null;
+        else
+            return lista.get(0);
+    }
 }

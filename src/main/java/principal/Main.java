@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import singleton.singleton;
+import recursoshumanos.ClaseTelefonos;
 
 /**
  *
@@ -23,11 +25,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //try {
-            // TODO code application logic here
-          fgeneral fg = new fgeneral();
-            fg.setVisible(true);
-            
+          System.getProperty("java.classpath");
+          Login login = new Login();
+          login.setVisible(true);
+          //fgeneral fg = new fgeneral();
+          //fg.setVisible(true);
     }
     
 }

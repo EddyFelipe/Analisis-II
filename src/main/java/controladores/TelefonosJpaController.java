@@ -6,7 +6,7 @@
 package controladores;
 
 import controladores.exceptions.NonexistentEntityException;
-import entidades.InfraccionesOtorgadas;
+import entidades.Telefonos;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,25 +18,25 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author felipe
+ * @author User
  */
-public class InfraccionesOtorgadasJpaController implements Serializable {
+public class TelefonosJpaController implements Serializable {
 
-    public InfraccionesOtorgadasJpaController(EntityManagerFactory emf) {
+    public TelefonosJpaController(EntityManager emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private EntityManager emf = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return emf;
     }
 
-    public void create(InfraccionesOtorgadas infraccionesOtorgadas) {
+    public void create(Telefonos telefonos) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(infraccionesOtorgadas);
+            em.persist(telefonos);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -45,19 +45,19 @@ public class InfraccionesOtorgadasJpaController implements Serializable {
         }
     }
 
-    public void edit(InfraccionesOtorgadas infraccionesOtorgadas) throws NonexistentEntityException, Exception {
+    public void edit(Telefonos telefonos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            infraccionesOtorgadas = em.merge(infraccionesOtorgadas);
+            telefonos = em.merge(telefonos);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = infraccionesOtorgadas.getId();
-                if (findInfraccionesOtorgadas(id) == null) {
-                    throw new NonexistentEntityException("The infraccionesOtorgadas with id " + id + " no longer exists.");
+                Integer id = telefonos.getId();
+                if (findTelefonos(id) == null) {
+                    throw new NonexistentEntityException("The telefonos with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -73,14 +73,14 @@ public class InfraccionesOtorgadasJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            InfraccionesOtorgadas infraccionesOtorgadas;
+            Telefonos telefonos;
             try {
-                infraccionesOtorgadas = em.getReference(InfraccionesOtorgadas.class, id);
-                infraccionesOtorgadas.getId();
+                telefonos = em.getReference(Telefonos.class, id);
+                telefonos.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The infraccionesOtorgadas with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The telefonos with id " + id + " no longer exists.", enfe);
             }
-            em.remove(infraccionesOtorgadas);
+            em.remove(telefonos);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -89,19 +89,19 @@ public class InfraccionesOtorgadasJpaController implements Serializable {
         }
     }
 
-    public List<InfraccionesOtorgadas> findInfraccionesOtorgadasEntities() {
-        return findInfraccionesOtorgadasEntities(true, -1, -1);
+    public List<Telefonos> findTelefonosEntities() {
+        return findTelefonosEntities(true, -1, -1);
     }
 
-    public List<InfraccionesOtorgadas> findInfraccionesOtorgadasEntities(int maxResults, int firstResult) {
-        return findInfraccionesOtorgadasEntities(false, maxResults, firstResult);
+    public List<Telefonos> findTelefonosEntities(int maxResults, int firstResult) {
+        return findTelefonosEntities(false, maxResults, firstResult);
     }
 
-    private List<InfraccionesOtorgadas> findInfraccionesOtorgadasEntities(boolean all, int maxResults, int firstResult) {
+    private List<Telefonos> findTelefonosEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(InfraccionesOtorgadas.class));
+            cq.select(cq.from(Telefonos.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,21 +112,43 @@ public class InfraccionesOtorgadasJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List encontrarTelefono(String numero)
+    {
+        Query query = emf.createNamedQuery("Telefonos.findByNumero", Telefonos.class);
+        query.setParameter("numero", numero);
+        return query.getResultList();
+    }
+    
+    public List desplegarTelefonos(Integer idEmpleado)
+    {
+        Query query = emf.createNamedQuery("Telefonos.encontrar", Telefonos.class);
+        query.setParameter("empleadoId", idEmpleado);
+        return query.getResultList();
+    }
+    
+    public List filtrar(String telefono, Integer idEmpleado)
+    {
+        Query query = emf.createNamedQuery("Telefonos.filtring", Telefonos.class);
+        query.setParameter("numempleado", telefono + "%");
+        query.setParameter("empleadoId", idEmpleado);
+        return query.getResultList();
+    }
 
-    public InfraccionesOtorgadas findInfraccionesOtorgadas(Integer id) {
+    public Telefonos findTelefonos(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(InfraccionesOtorgadas.class, id);
+            return em.find(Telefonos.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getInfraccionesOtorgadasCount() {
+    public int getTelefonosCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<InfraccionesOtorgadas> rt = cq.from(InfraccionesOtorgadas.class);
+            Root<Telefonos> rt = cq.from(Telefonos.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

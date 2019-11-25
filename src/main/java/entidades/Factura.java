@@ -15,21 +15,22 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author felipe
+ * @author User
  */
 @Entity
 @Table(name = "factura")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f"),
     @NamedQuery(name = "Factura.findByIdfactura", query = "SELECT f FROM Factura f WHERE f.facturaPK.idfactura = :idfactura"),
     @NamedQuery(name = "Factura.findByFechaVenta", query = "SELECT f FROM Factura f WHERE f.fechaVenta = :fechaVenta"),
     @NamedQuery(name = "Factura.findByMontoVenta", query = "SELECT f FROM Factura f WHERE f.montoVenta = :montoVenta"),
     @NamedQuery(name = "Factura.findByDescuento", query = "SELECT f FROM Factura f WHERE f.descuento = :descuento"),
-    @NamedQuery(name = "Factura.findByIdcliente", query = "SELECT f FROM Factura f WHERE f.facturaPK.idcliente = :idcliente"),
-    @NamedQuery(name = "Factura.findLastInsert", query = "SELECT MAX(f.facturaPK.idfactura) FROM Factura f")})
+    @NamedQuery(name = "Factura.findByIdcliente", query = "SELECT f FROM Factura f WHERE f.facturaPK.idcliente = :idcliente")})
 public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;

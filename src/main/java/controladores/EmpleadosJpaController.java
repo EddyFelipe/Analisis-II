@@ -89,6 +89,13 @@ public class EmpleadosJpaController implements Serializable {
         }
     }
 
+    public List encontrarUsuario(String usuario)
+    {
+        Query query = emf.createNamedQuery("Empleados.findByUsuario", Empleados.class);
+        query.setParameter("usuario", usuario);
+        return query.getResultList();
+    }
+    
     public List<Empleados> findEmpleadosEntities() {
         return findEmpleadosEntities(true, -1, -1);
     }

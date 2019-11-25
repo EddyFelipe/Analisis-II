@@ -6,7 +6,7 @@
 package controladores;
 
 import controladores.exceptions.NonexistentEntityException;
-import entidades.Infracciones;
+import entidades.BonosDescuentos;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,25 +18,25 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author felipe
+ * @author User
  */
-public class InfraccionesJpaController implements Serializable {
+public class BonosDescuentosJpaController implements Serializable {
 
-    public InfraccionesJpaController(EntityManagerFactory emf) {
+    public BonosDescuentosJpaController(EntityManager emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private EntityManager emf = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return emf;
     }
 
-    public void create(Infracciones infracciones) {
+    public void create(BonosDescuentos bonosDescuentos) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(infracciones);
+            em.persist(bonosDescuentos);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -45,19 +45,19 @@ public class InfraccionesJpaController implements Serializable {
         }
     }
 
-    public void edit(Infracciones infracciones) throws NonexistentEntityException, Exception {
+    public void edit(BonosDescuentos bonosDescuentos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            infracciones = em.merge(infracciones);
+            bonosDescuentos = em.merge(bonosDescuentos);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = infracciones.getId();
-                if (findInfracciones(id) == null) {
-                    throw new NonexistentEntityException("The infracciones with id " + id + " no longer exists.");
+                Integer id = bonosDescuentos.getId();
+                if (findBonosDescuentos(id) == null) {
+                    throw new NonexistentEntityException("The bonosDescuentos with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -73,14 +73,14 @@ public class InfraccionesJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Infracciones infracciones;
+            BonosDescuentos bonosDescuentos;
             try {
-                infracciones = em.getReference(Infracciones.class, id);
-                infracciones.getId();
+                bonosDescuentos = em.getReference(BonosDescuentos.class, id);
+                bonosDescuentos.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The infracciones with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The bonosDescuentos with id " + id + " no longer exists.", enfe);
             }
-            em.remove(infracciones);
+            em.remove(bonosDescuentos);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,20 +88,34 @@ public class InfraccionesJpaController implements Serializable {
             }
         }
     }
-
-    public List<Infracciones> findInfraccionesEntities() {
-        return findInfraccionesEntities(true, -1, -1);
+    
+    public List encontrarBono_Descuento(String bono_descuento)
+    {
+        Query query = emf.createNamedQuery("BonosDescuentos.findByDescripci\u00f3n", BonosDescuentos.class);
+        query.setParameter("descripci\u00f3n", bono_descuento);
+        return query.getResultList();
+    }
+    
+    public List filtrar(String bono_descuento)
+    {
+        Query query = emf.createNamedQuery("BonosDescuentos.filtring", BonosDescuentos.class);
+        query.setParameter("descripcion", bono_descuento + "%");
+        return query.getResultList();
     }
 
-    public List<Infracciones> findInfraccionesEntities(int maxResults, int firstResult) {
-        return findInfraccionesEntities(false, maxResults, firstResult);
+    public List<BonosDescuentos> findBonosDescuentosEntities() {
+        return findBonosDescuentosEntities(true, -1, -1);
     }
 
-    private List<Infracciones> findInfraccionesEntities(boolean all, int maxResults, int firstResult) {
+    public List<BonosDescuentos> findBonosDescuentosEntities(int maxResults, int firstResult) {
+        return findBonosDescuentosEntities(false, maxResults, firstResult);
+    }
+
+    private List<BonosDescuentos> findBonosDescuentosEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Infracciones.class));
+            cq.select(cq.from(BonosDescuentos.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -113,20 +127,20 @@ public class InfraccionesJpaController implements Serializable {
         }
     }
 
-    public Infracciones findInfracciones(Integer id) {
+    public BonosDescuentos findBonosDescuentos(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Infracciones.class, id);
+            return em.find(BonosDescuentos.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getInfraccionesCount() {
+    public int getBonosDescuentosCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Infracciones> rt = cq.from(Infracciones.class);
+            Root<BonosDescuentos> rt = cq.from(BonosDescuentos.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
