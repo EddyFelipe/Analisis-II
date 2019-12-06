@@ -22,7 +22,7 @@ import interfaces.AccionesBasicas;
  * @author igeni
  */
 public class ClaseEmpleados implements Filtrar, AccionesBasicas{
-
+    //Registrar a un empleado
     @Override
     public boolean registrarObject(Object obj, EntityManager em) {
         try{
@@ -34,7 +34,7 @@ public class ClaseEmpleados implements Filtrar, AccionesBasicas{
         }
         
     }
-
+    //Editar los datos de un empleado
     public boolean editarObject(Object obj, EntityManager em, int id) {
         try{
             EmpleadosJpaController controlador = new EmpleadosJpaController(em);
@@ -45,7 +45,7 @@ public class ClaseEmpleados implements Filtrar, AccionesBasicas{
             return false;
         }
     }
-
+    //Buscar a los empleados con filtro o sin este
     @Override
     public List buscarObjects(Object obj, EntityManager em) {
         EmpleadosJpaController ContEmpleados = new EmpleadosJpaController(em);
@@ -56,13 +56,13 @@ public class ClaseEmpleados implements Filtrar, AccionesBasicas{
             lista = ContEmpleados.filtrar(String.valueOf(obj));
         return lista;
     }
-    
+    //Obtener a un empleado
     public Empleados obtenerEmpleado(EntityManager em, int idEmpleado)
     {
         EmpleadosJpaController controlador = new EmpleadosJpaController(em);
         return controlador.findEmpleados(idEmpleado);
     }
-    
+    //Buscar si un usuario ya existe
     public Empleados buscarUsuario(EntityManager em, String usuario) { //Rellenar la tabla de teléfonos de un empleado
         EmpleadosJpaController controlador = new EmpleadosJpaController(em);
         List<Empleados> lista = null;

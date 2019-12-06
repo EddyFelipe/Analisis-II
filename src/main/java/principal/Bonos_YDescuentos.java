@@ -6,6 +6,10 @@
 package principal;
 
 import entidades.BonosDescuentos;
+import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -17,12 +21,13 @@ import singleton.singleton;
  * @author User
  */
 public class Bonos_YDescuentos extends javax.swing.JPanel {
-    DefaultTableModel bonos_ydescuentos = new DefaultTableModel();
-    Bonos_Descuentos bonosdescuentos = new Bonos_Descuentos();
-    int descontinuado = 0;
-    BonosDescuentos dato;
-    boolean continuado = true;
+    DefaultTableModel bonos_ydescuentos = new DefaultTableModel();//Modelo para la tabla de bonos/descuentos
+    Bonos_Descuentos bonosdescuentos = new Bonos_Descuentos();//Variable para efectuar operaciones de ingreso, modificación, descontinuación/continuación y búsqueda
+    int descontinuado = 0; // Variable para indicar si un bono está descontinuado o no
+    BonosDescuentos dato; // Variable de tipo BonoDescuento para obtener sus datos al ser seleccionado en la tabla
+    boolean continuado = true; // Booleano para indicar si un bono/descuento está en uso todavía o ya no
     public Bonos_YDescuentos() {
+        //Asignar columnas a la tabla de bonos/descuentos, y cargar sus datos en esta misma
         initComponents();
         bonos_ydescuentos.addColumn("Descripción");
         bonos_ydescuentos.addColumn("Monto/Porcentaje");
@@ -32,8 +37,53 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         rbContinuados.setSelected(true);
         limpiarComponentes();
         cargarBonos_Descuentos(descontinuado, "");
+        inicializarListenerBonosDescuentos();
     }
-
+    
+    public void inicializarListenerBonosDescuentos() {
+        tBonos_Descuentos.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    dato = bonosdescuentos.buscarBono_Descuento(singleton.getConnection(),
+                            String.valueOf(tBonos_Descuentos.getValueAt(tBonos_Descuentos.getSelectedRow(), 0)));
+                    tfMBono_Descuento.setEnabled(true);
+                    tfMMonto_Porcentaje.setEnabled(true);
+                    rbMBono.setEnabled(true);
+                    rbMDescuento.setEnabled(true);
+                    rbMMonto.setEnabled(true);
+                    rbMPorcentaje.setEnabled(true);
+                    rbMContinuar.setEnabled(true);
+                    btnModBono_Descuento.setEnabled(true);
+                    tfMBono_Descuento.setText(dato.getDescripción());
+                    tfMMonto_Porcentaje.setText(dato.getMonto().toString());
+                    if (dato.getEsBono() == 0) {
+                        rbMDescuento.setSelected(true);
+                        rbMBono.setSelected(false);
+                    } else {
+                        rbMDescuento.setSelected(false);
+                        rbMBono.setSelected(true);
+                    }
+                    if (dato.getEsPorcentaje() == 0) {
+                        rbMMonto.setSelected(true);
+                        rbMPorcentaje.setSelected(false);
+                    } else {
+                        rbMMonto.setSelected(false);
+                        rbMPorcentaje.setSelected(true);
+                    }
+                    if (dato.getDescontinuado() == 0) {
+                        rbMContinuar.setText("Descontinuar");
+                    } else {
+                        rbMContinuar.setText("Continuar");
+                    }
+                    tfMBono_Descuento.requestFocus();
+                }
+            }
+        });
+    }
+    
+    
+    
+    //Cargar bonos/descuentos en la tabla de bonos/descuentos, ya sea con el filtro o sin este
     private void cargarBonos_Descuentos(int descontinuado, String contenido)
     {
         int fila = 0;
@@ -65,13 +115,14 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-    
+    //Limpiar tabla de bonos/descuentos
     private void limpiarTabla()
     {
         while (bonos_ydescuentos.getRowCount() > 0)
             bonos_ydescuentos.removeRow(0);
     }
-    
+    //Validaciones para evitar que botones sigan activos cuando añadió, modificó, descontinuó, buscó, o continuó un bono/descuento, al igual
+    //que validaciones de las cajas de texto
     private void limpiarComponentes()
     {
         limpiarTabla();
@@ -130,8 +181,10 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         rbMonto = new javax.swing.JRadioButton();
         rbPorcentaje = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
+        btnRegresar = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(36, 41, 46));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(36, 41, 46));
 
@@ -306,7 +359,7 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
                                 .addGap(36, 36, 36)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lblMMonto_Porcentaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tfMMonto_Porcentaje))
+                                    .addComponent(tfMMonto_Porcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(28, 28, 28)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(rbMBono, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,12 +372,11 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rbMContinuar)
                             .addComponent(btnModBono_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addComponent(lblBusqBono_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -337,7 +389,7 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
                         .addComponent(btnModBono_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(rbMContinuar)
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPabe1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,19 +401,20 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(tfMBono_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfMMonto_Porcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(tfMMonto_Porcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
-                                .addComponent(rbMBono)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(rbMDescuento))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(rbMMonto)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(rbMBono)
+                                    .addComponent(rbMMonto))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbMPorcentaje))))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(rbMPorcentaje)
+                                    .addComponent(rbMDescuento))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 56, -1, 250));
 
         jPanel3.setBackground(new java.awt.Color(36, 41, 46));
 
@@ -372,8 +425,6 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         btnAgregarBono_Descuento.setContentAreaFilled(false);
         btnAgregarBono_Descuento.setFocusPainted(false);
         btnAgregarBono_Descuento.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAgregarBono_Descuento.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Agrega_empleado2.png"))); // NOI18N
-        btnAgregarBono_Descuento.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Agrega_empleado1.png"))); // NOI18N
         btnAgregarBono_Descuento.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnAgregarBono_Descuento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -516,35 +567,20 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
                             .addComponent(rbPorcentaje)))))
         );
 
-        jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 335, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 894, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 312, 894, 10));
+
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back.png"))); // NOI18N
+        btnRegresar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back2.png"))); // NOI18N
+        btnRegresar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back1.png"))); // NOI18N
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 50, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -557,64 +593,31 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    //Obtener datos de un bono/descuento seleccionado
     private void tBonos_DescuentosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tBonos_DescuentosMouseReleased
-        if (evt.getButton() == 1)
-        {
-            dato = bonosdescuentos.buscarBono_Descuento(singleton.getConnection(),
-            String.valueOf(tBonos_Descuentos.getValueAt(tBonos_Descuentos.getSelectedRow(), 0)));
-            tfMBono_Descuento.setEnabled(true);
-            tfMMonto_Porcentaje.setEnabled(true);
-            rbMBono.setEnabled(true);
-            rbMDescuento.setEnabled(true);
-            rbMMonto.setEnabled(true);
-            rbMPorcentaje.setEnabled(true);
-            rbMContinuar.setEnabled(true);
-            btnModBono_Descuento.setEnabled(true);
-            tfMBono_Descuento.setText(dato.getDescripción());
-            tfMMonto_Porcentaje.setText(dato.getMonto().toString());
-            if (dato.getEsBono() == 0)
-            {
-                rbMDescuento.setSelected(true);
-                rbMBono.setSelected(false);
-            }
-            else
-            {
-                rbMDescuento.setSelected(false);
-                rbMBono.setSelected(true);
-            }
-            if (dato.getEsPorcentaje() == 0)
-            {
-                rbMMonto.setSelected(true);
-                rbMPorcentaje.setSelected(false);
-            }
-            else
-            {
-                rbMMonto.setSelected(false);
-                rbMPorcentaje.setSelected(true);
-            }
-            if (dato.getDescontinuado() == 0)
-                rbMContinuar.setText("Descontinuar");
-            else
-                rbMContinuar.setText("Continuar");
-        }
+        
         
     }//GEN-LAST:event_tBonos_DescuentosMouseReleased
 
     private void tfFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFiltroKeyPressed
 
     }//GEN-LAST:event_tfFiltroKeyPressed
-
+    //Filtro de bonos/descuentos accionado
     private void tfFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFiltroKeyReleased
         limpiarComponentes();
         cargarBonos_Descuentos(descontinuado, tfFiltro.getText());
     }//GEN-LAST:event_tfFiltroKeyReleased
-
+    //Validación de un máximo de 30 caracteres en el filtro de bonos/descuentos
     private void tfFiltroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFiltroKeyTyped
         if (tfFiltro.getText().length() > 30) evt.consume();
     }//GEN-LAST:event_tfFiltroKeyTyped
-
+    //Modificación de un bono/descuento
     private void btnModBono_DescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModBono_DescuentoActionPerformed
+        modificarBonoDescuento();
+    }//GEN-LAST:event_btnModBono_DescuentoActionPerformed
+
+    private void modificarBonoDescuento()
+    {
         if (!tfMBono_Descuento.getText().equals("") && !tfMMonto_Porcentaje.getText().equals("") &&
             (rbMMonto.isSelected() || rbMPorcentaje.isSelected()) && (rbMBono.isSelected() || rbMDescuento.isSelected()))
         {
@@ -643,24 +646,24 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         }
         else
             JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos solicitados de modificación");
-    }//GEN-LAST:event_btnModBono_DescuentoActionPerformed
-
+    }
+    
     private void tfMBono_DescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMBono_DescuentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfMBono_DescuentoActionPerformed
 
     private void tfMBono_DescuentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMBono_DescuentoKeyPressed
-        //if (evt.getKeyCode()==KeyEvent.VK_ENTER) tfMApellidos.requestFocus();
+        if (evt.getKeyCode()==KeyEvent.VK_ENTER || evt.getKeyCode()==KeyEvent.VK_DOWN) tfMMonto_Porcentaje.requestFocus();
     }//GEN-LAST:event_tfMBono_DescuentoKeyPressed
-
+    //Validación de un máximo de caracteres de 50 para modificar un bono/descuento
     private void tfMBono_DescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMBono_DescuentoKeyTyped
         if (tfMBono_Descuento.getText().length() > 50) evt.consume();
     }//GEN-LAST:event_tfMBono_DescuentoKeyTyped
 
     private void tfMMonto_PorcentajeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMMonto_PorcentajeKeyPressed
-        //if (evt.getKeyCode()==KeyEvent.VK_ENTER) tfMDireccion.requestFocus();
+        if (evt.getKeyCode()==KeyEvent.VK_ENTER) modificarBonoDescuento();
     }//GEN-LAST:event_tfMMonto_PorcentajeKeyPressed
-
+    //Validación de un máximo de 6 dígitos (también validados) al ingresar un monto o porcentaje
     private void tfMMonto_PorcentajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMMonto_PorcentajeKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9')
@@ -670,14 +673,14 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         }
         if (tfMMonto_Porcentaje.getText().length() > 6) evt.consume();
     }//GEN-LAST:event_tfMMonto_PorcentajeKeyTyped
-
+    //Validar que se accione sólo el radiobutton de bono (modificación)
     private void rbMBonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMBonoActionPerformed
         if (rbMBono.isSelected())
             rbMDescuento.setSelected(false);
         if (!rbMBono.isSelected())
             rbMBono.setSelected(true);
     }//GEN-LAST:event_rbMBonoActionPerformed
-
+    //Validar que se accione sólo el radiobutton de continuados (al añadir)
     private void rbContinuadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbContinuadosActionPerformed
         if (rbContinuados.isSelected() && continuado == false)
         {
@@ -691,14 +694,14 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         if (!rbContinuados.isSelected())
             rbContinuados.setSelected(true);
     }//GEN-LAST:event_rbContinuadosActionPerformed
-
+    //Validar que se accione sólo el radiobutton de descuentos (modificación)
     private void rbMDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMDescuentoActionPerformed
         if (rbMDescuento.isSelected())
             rbMBono.setSelected(false);
         if (!rbMDescuento.isSelected())
             rbMDescuento.setSelected(true);
     }//GEN-LAST:event_rbMDescuentoActionPerformed
-
+    //Validar que se accione sólo el radiobutton de descontinuados (al añadir)
     private void rbDescontinuadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDescontinuadosActionPerformed
         if (rbDescontinuados.isSelected() && continuado == true)
         {
@@ -712,26 +715,25 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         if (!rbDescontinuados.isSelected())
             rbDescontinuados.setSelected(true);
     }//GEN-LAST:event_rbDescontinuadosActionPerformed
-
+    //Validar que se accione sólo el radiobutton de monto (modificación)
     private void rbMMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMMontoActionPerformed
         if (rbMMonto.isSelected())
             rbMPorcentaje.setSelected(false);
         if (!rbMMonto.isSelected())
             rbMMonto.setSelected(true);
     }//GEN-LAST:event_rbMMontoActionPerformed
-
+    //Validar que se accione sólo el radiobutton de porcentaje (modificación)
     private void rbMPorcentajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMPorcentajeActionPerformed
         if (rbMPorcentaje.isSelected())
             rbMMonto.setSelected(false);
         if (!rbMPorcentaje.isSelected())
             rbMPorcentaje.setSelected(true);
     }//GEN-LAST:event_rbMPorcentajeActionPerformed
-
+    //Validar que se accione sólo el radiobutton de continuados (modificación)
     private void rbMContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMContinuarActionPerformed
-        if (!rbMContinuar.isSelected())
-            rbMContinuar.setSelected(true);
+        
     }//GEN-LAST:event_rbMContinuarActionPerformed
-
+    //Añadir un bono/descuento
     private void btnAgregarBono_DescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarBono_DescuentoActionPerformed
         if (!tfNombreBono_Descuento.getText().equals("") && !tfMonto_Porcentaje.getText().equals("") &&
             (rbMonto.isSelected() || rbPorcentaje.isSelected()) && (rbBono.isSelected() || rbDescuento.isSelected()))
@@ -763,8 +765,10 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
                 cargarBonos_Descuentos(descontinuado, "");
             }
             else
-                JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos solicitados");
+                JOptionPane.showMessageDialog(null, "El nombre del bono/descuento ingresado ya existe");
         }
+        else
+            JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos solicitados");
     }//GEN-LAST:event_btnAgregarBono_DescuentoActionPerformed
 
     private void tfNombreBono_DescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNombreBono_DescuentoActionPerformed
@@ -774,7 +778,7 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
     private void tfNombreBono_DescuentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombreBono_DescuentoKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNombreBono_DescuentoKeyPressed
-
+    //Validación de escritura de bono/descuento a un máximo de 50 caracteres (al añadir)
     private void tfNombreBono_DescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombreBono_DescuentoKeyTyped
         if (tfNombreBono_Descuento.getText().length() > 50) evt.consume();
     }//GEN-LAST:event_tfNombreBono_DescuentoKeyTyped
@@ -786,7 +790,7 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
     private void tfMonto_PorcentajeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMonto_PorcentajeKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfMonto_PorcentajeKeyPressed
-
+    //Validación de escritura de dígitos (también validados) de un monto o porcentaje
     private void tfMonto_PorcentajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMonto_PorcentajeKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9')
@@ -796,39 +800,50 @@ public class Bonos_YDescuentos extends javax.swing.JPanel {
         }
         if (tfMonto_Porcentaje.getText().length() > 6) evt.consume();
     }//GEN-LAST:event_tfMonto_PorcentajeKeyTyped
-
+    //Validar que se accione sólo el radiobutton de bono (al añadir)
     private void rbBonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBonoActionPerformed
         if (rbBono.isSelected())
         rbDescuento.setSelected(false);
         if (!rbBono.isSelected())
         rbBono.setSelected(true);
     }//GEN-LAST:event_rbBonoActionPerformed
-
+    //Validar que se accione sólo el radiobutton de descuento (al añadir)
     private void rbDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDescuentoActionPerformed
         if (rbDescuento.isSelected())
         rbBono.setSelected(false);
         if (!rbDescuento.isSelected())
         rbDescuento.setSelected(true);
     }//GEN-LAST:event_rbDescuentoActionPerformed
-
+    //Validar que se acciones sólo el radiobutton de monto (al añadir)
     private void rbMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMontoActionPerformed
         if (rbMonto.isSelected())
         rbPorcentaje.setSelected(false);
         if (!rbMonto.isSelected())
         rbMonto.setSelected(true);
     }//GEN-LAST:event_rbMontoActionPerformed
-
+    //Validar que se accione sólo el radiobutton de porcentaje (al añadir)
     private void rbPorcentajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPorcentajeActionPerformed
         if (rbPorcentaje.isSelected())
         rbMonto.setSelected(false);
         if (!rbPorcentaje.isSelected())
         rbPorcentaje.setSelected(true);
     }//GEN-LAST:event_rbPorcentajeActionPerformed
+    //Regresar al pánel de empleados
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        FormEmpleados empleados = new FormEmpleados();
+        empleados.setSize(1010,600);
+        empleados.setLocation(0, 0);
+        this.removeAll();
+        this.add(empleados,BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarBono_Descuento;
     private javax.swing.JButton btnModBono_Descuento;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

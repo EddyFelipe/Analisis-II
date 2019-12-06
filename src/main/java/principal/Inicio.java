@@ -20,7 +20,7 @@ import singleton.singleton;
  */
 public class Inicio extends javax.swing.JFrame {
 
-    ClaseEmpleados clasEmpleados = new ClaseEmpleados();
+    ClaseEmpleados clasEmpleados = new ClaseEmpleados();//Variable que va a permitir la adición del nuevo administrador a la empresa
     public Inicio() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -206,26 +206,26 @@ public class Inicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Minimizar el form
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        //this.setState(General.ICONIFIED);
+        this.setState(Inicio.ICONIFIED);
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    //Preguntar si se va a salir del programa
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int sino = JOptionPane.YES_NO_OPTION;
-        int resultado = JOptionPane.showConfirmDialog(null,"¿Desea Sallir del Sistema?","Exit",sino);
+        int resultado = JOptionPane.showConfirmDialog(null,"¿Desea Salir del Sistema?","Exit",sino);
         if(resultado==0){
 
             System.exit(0);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    //Insertar al administrador
     private void BTNInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNInsertarActionPerformed
         Insertar();
     }//GEN-LAST:event_BTNInsertarActionPerformed
-
+    //Insertar al administrador
     private void Insertar()
     {
         if (tfNombres.getText().length() > 0 && tfApellidos.getText().length() > 0 && tfDireccion.getText().length() > 0
@@ -255,7 +255,8 @@ public class Inicio extends javax.swing.JFrame {
     private void jPanel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyTyped
 
     }//GEN-LAST:event_jPanel1KeyTyped
-
+    //Validar un máximo de 30 caracteres en el campo de nombre, validando así mismo sólo el uso de las letras del abecedario
+    //Con sus letras tildadas, y letras mayúsculas
     private void tfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombresKeyTyped
         char c = evt.getKeyChar();
         
@@ -266,7 +267,8 @@ public class Inicio extends javax.swing.JFrame {
         }
         if (tfNombres.getText().length() > 30) evt.consume();
     }//GEN-LAST:event_tfNombresKeyTyped
-
+    //Validar un máximo de 30 caracteres en el campo de apellido, validando así mismo sólo el uso de las letras del abecedario
+    //Con sus letras tildadas, y letras mayúsculas
     private void tfApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfApellidosKeyTyped
         char c = evt.getKeyChar();
         
@@ -277,12 +279,12 @@ public class Inicio extends javax.swing.JFrame {
         }
         if (tfApellidos.getText().length() > 30) evt.consume();
     }//GEN-LAST:event_tfApellidosKeyTyped
-
+    //Validar un máximo de 45 caracteres en el campo de dirección
     private void tfDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDireccionKeyTyped
         char c = evt.getKeyChar();
         if (tfDireccion.getText().length() > 45) evt.consume();
     }//GEN-LAST:event_tfDireccionKeyTyped
-
+    //Validar movimiento entre campos de texto
     private void tfNombresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombresKeyPressed
         if (evt.getKeyCode()== KeyEvent.VK_ENTER)
             tfApellidos.requestFocus();
@@ -291,7 +293,7 @@ public class Inicio extends javax.swing.JFrame {
         if (evt.getKeyCode()== KeyEvent.VK_DOWN)
             tfApellidos.requestFocus();
     }//GEN-LAST:event_tfNombresKeyPressed
-
+    //Validar movimiento entre campos de texto
     private void tfApellidosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfApellidosKeyPressed
         if (evt.getKeyCode()== KeyEvent.VK_ENTER)
             tfDireccion.requestFocus();
@@ -300,7 +302,7 @@ public class Inicio extends javax.swing.JFrame {
         if (evt.getKeyCode()== KeyEvent.VK_DOWN)
             tfDireccion.requestFocus();
     }//GEN-LAST:event_tfApellidosKeyPressed
-
+    //Validar movimiento entre campos de texto
     private void tfDireccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDireccionKeyPressed
         if (evt.getKeyCode()== KeyEvent.VK_ENTER)
             tfSalario.requestFocus();
@@ -309,7 +311,7 @@ public class Inicio extends javax.swing.JFrame {
         if (evt.getKeyCode()== KeyEvent.VK_DOWN)
             tfSalario.requestFocus();
     }//GEN-LAST:event_tfDireccionKeyPressed
-
+    //Validar movimiento entre campos de texto
     private void tfSalarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSalarioKeyPressed
         if (evt.getKeyCode()== KeyEvent.VK_ENTER)
             Insertar();
@@ -318,7 +320,7 @@ public class Inicio extends javax.swing.JFrame {
         if (evt.getKeyCode()== KeyEvent.VK_DOWN)
             tfNombres.requestFocus();
     }//GEN-LAST:event_tfSalarioKeyPressed
-
+    //Validación de un máximo de 6 caracteres en el campo de salario, con dígitos validados y el punto flotante
     private void tfSalarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSalarioKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9')

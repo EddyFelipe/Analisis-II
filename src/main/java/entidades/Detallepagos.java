@@ -29,10 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Detallepagos.findAll", query = "SELECT d FROM Detallepagos d"),
     @NamedQuery(name = "Detallepagos.findById", query = "SELECT d FROM Detallepagos d WHERE d.id = :id"),
+    @NamedQuery(name = "Detallepagos.findByCantidad", query = "SELECT d FROM Detallepagos d WHERE d.cantidad = :cantidad"),
     @NamedQuery(name = "Detallepagos.findByDescripcion", query = "SELECT d FROM Detallepagos d WHERE d.descripcion = :descripcion"),
-    @NamedQuery(name = "Detallepagos.findByMonto", query = "SELECT d FROM Detallepagos d WHERE d.monto = :monto"),
-    @NamedQuery(name = "Detallepagos.findByFecha", query = "SELECT d FROM Detallepagos d WHERE d.fecha = :fecha"),
-    @NamedQuery(name = "Detallepagos.findByHora", query = "SELECT d FROM Detallepagos d WHERE d.hora = :hora")})
+    @NamedQuery(name = "Detallepagos.listado", query = "SELECT d FROM Detallepagos d WHERE d.pagosId = :pagosId"),
+    @NamedQuery(name = "Detallepagos.findByMonto", query = "SELECT d FROM Detallepagos d WHERE d.monto = :monto")})
 public class Detallepagos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,20 +41,19 @@ public class Detallepagos implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "cantidad")
+    private Integer cantidad;
     @Column(name = "descripcion")
     private String descripcion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "monto")
-    private String monto;
-    @Column(name = "fecha")
-    private String fecha;
-    @Column(name = "hora")
-    private String hora;
+    private Float monto;
     @JoinColumn(name = "bonos_descuentos_id", referencedColumnName = "id")
     @ManyToOne
     private BonosDescuentos bonosDescuentosId;
-    @JoinColumn(name = "empleados_id", referencedColumnName = "id")
+    @JoinColumn(name = "pagos_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Empleados empleadosId;
+    private Pagos pagosId;
 
     public Detallepagos() {
     }
@@ -71,6 +70,14 @@ public class Detallepagos implements Serializable {
         this.id = id;
     }
 
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -79,28 +86,12 @@ public class Detallepagos implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getMonto() {
+    public Float getMonto() {
         return monto;
     }
 
-    public void setMonto(String monto) {
+    public void setMonto(Float monto) {
         this.monto = monto;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
     }
 
     public BonosDescuentos getBonosDescuentosId() {
@@ -111,12 +102,12 @@ public class Detallepagos implements Serializable {
         this.bonosDescuentosId = bonosDescuentosId;
     }
 
-    public Empleados getEmpleadosId() {
-        return empleadosId;
+    public Pagos getPagosId() {
+        return pagosId;
     }
 
-    public void setEmpleadosId(Empleados empleadosId) {
-        this.empleadosId = empleadosId;
+    public void setPagosId(Pagos pagosId) {
+        this.pagosId = pagosId;
     }
 
     @Override

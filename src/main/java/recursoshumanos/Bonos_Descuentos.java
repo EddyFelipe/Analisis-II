@@ -20,14 +20,14 @@ import javax.persistence.EntityManager;
  * @author User
  */
 public class Bonos_Descuentos implements AccionesBasicas, Filtrar {
-
+    //Ingresar un bono/descuento
     @Override
     public boolean registrarObject(Object obj, EntityManager em) {
         BonosDescuentosJpaController bdjc = new BonosDescuentosJpaController(em);
         bdjc.create((BonosDescuentos)obj);
         return true;
     }
-    
+    //Editar un bono/descuento
     public void editarObject(Object obj, EntityManager em)
     {
         try {
@@ -37,7 +37,7 @@ public class Bonos_Descuentos implements AccionesBasicas, Filtrar {
             Logger.getLogger(Bonos_Descuentos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    //Eliminar un bono/descuento
     public void eliminarObject(Object obj, EntityManager em)
     {
         try {
@@ -47,8 +47,8 @@ public class Bonos_Descuentos implements AccionesBasicas, Filtrar {
             Logger.getLogger(Bonos_Descuentos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public BonosDescuentos buscarBono_Descuento(EntityManager em, String dato) { //Rellenar la tabla de teléfonos de un empleado
+    //Validar si un bono/descuento ya existe
+    public BonosDescuentos buscarBono_Descuento(EntityManager em, String dato) {
         BonosDescuentosJpaController controlador = new BonosDescuentosJpaController(em);
         List<BonosDescuentos> lista = null;
         lista = controlador.encontrarBono_Descuento(dato);
@@ -57,7 +57,7 @@ public class Bonos_Descuentos implements AccionesBasicas, Filtrar {
         else
             return lista.get(0);
     }
-
+    //Buscar un bono/descuento por filtro o sin este
     @Override
     public List buscarObjects(Object obj, EntityManager em) {
         BonosDescuentosJpaController bdjc = new BonosDescuentosJpaController(em);

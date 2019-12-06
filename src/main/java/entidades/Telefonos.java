@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,9 +29,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Telefonos.findAll", query = "SELECT t FROM Telefonos t"),
     @NamedQuery(name = "Telefonos.findById", query = "SELECT t FROM Telefonos t WHERE t.id = :id"),
-    @NamedQuery(name = "Telefonos.findByNumero", query = "SELECT t FROM Telefonos t WHERE t.numero = :numero"),
     @NamedQuery(name = "Telefonos.filtring", query = "SELECT t FROM Telefonos t WHERE t.numero LIKE :numempleado AND t.empleadosId = :empleadoId"),
-    @NamedQuery(name = "Telefonos.encontrar", query = "SELECT t FROM Telefonos t WHERE t.empleadosId = :empleadoId")})
+    @NamedQuery(name = "Telefonos.filtrar", query = "SELECT t FROM Telefonos t WHERE t.numero LIKE :numempresa AND t.comprasIdcompras = :idCompras"),
+    @NamedQuery(name = "Telefonos.encontrar", query = "SELECT t FROM Telefonos t WHERE t.empleadosId = :empleadoId"),
+    @NamedQuery(name = "Telefonos.encontrarEmpresa", query = "SELECT t FROM Telefonos t WHERE t.comprasIdcompras = :idCompras"),
+    @NamedQuery(name = "Telefonos.findByNumero", query = "SELECT t FROM Telefonos t WHERE t.numero = :numero")})
 public class Telefonos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,20 +44,18 @@ public class Telefonos implements Serializable {
     private Integer id;
     @Column(name = "numero")
     private String numero;
-    @Basic(optional = false)
-    @Column(name = "empleados_id")
-    private int empleadosId;
+    @JoinColumn(name = "compras_idcompras", referencedColumnName = "idcompras")
+    @ManyToOne
+    private Compras comprasIdcompras;
+    @JoinColumn(name = "empleados_id", referencedColumnName = "id")
+    @ManyToOne
+    private Empleados empleadosId;
 
     public Telefonos() {
     }
 
     public Telefonos(Integer id) {
         this.id = id;
-    }
-
-    public Telefonos(Integer id, int empleadosId) {
-        this.id = id;
-        this.empleadosId = empleadosId;
     }
 
     public Integer getId() {
@@ -72,11 +74,19 @@ public class Telefonos implements Serializable {
         this.numero = numero;
     }
 
-    public int getEmpleadosId() {
+    public Compras getComprasIdcompras() {
+        return comprasIdcompras;
+    }
+
+    public void setComprasIdcompras(Compras comprasIdcompras) {
+        this.comprasIdcompras = comprasIdcompras;
+    }
+
+    public Empleados getEmpleadosId() {
         return empleadosId;
     }
 
-    public void setEmpleadosId(int empleadosId) {
+    public void setEmpleadosId(Empleados empleadosId) {
         this.empleadosId = empleadosId;
     }
 

@@ -24,9 +24,10 @@ public class RespaldoCuenta extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    Empleados empleado = null;
-    Contrasena contrasena = new Contrasena();
-    ClaseEmpleados clasEmpleados = new ClaseEmpleados();
+    Empleados empleado = null;//Retener los datos del empleado seleccionado para recuperar la cuenta
+    Contrasena contrasena = new Contrasena();//Variable que va a permitir la recuperación de la cuenta al ingresar y confirmar la contraseña
+    ClaseEmpleados clasEmpleados = new ClaseEmpleados();//Variable que va a permitir la modificación de datos de la cuenta
+    //Controlar el comportamiento de los componentes al ingresar al form
     public RespaldoCuenta() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -52,8 +53,8 @@ public class RespaldoCuenta extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        btnMinimizar = new javax.swing.JButton();
         btnRespuesta = new javax.swing.JButton();
         pfConfirmarContra = new javax.swing.JPasswordField();
         lblConfirmarContra = new javax.swing.JLabel();
@@ -63,6 +64,7 @@ public class RespaldoCuenta extends javax.swing.JFrame {
         pfContrasena = new javax.swing.JPasswordField();
         tfRespuesta = new javax.swing.JTextField();
         lblRespuesta = new javax.swing.JLabel();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -85,37 +87,37 @@ public class RespaldoCuenta extends javax.swing.JFrame {
         lblUsuario.setText("Usuario");
         jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, -1, -1));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Salida2.png"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setFocusPainted(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Salida3.png"))); // NOI18N
-        jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salida1.png"))); // NOI18N
-        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Salida2.png"))); // NOI18N
+        btnSalir.setBorder(null);
+        btnSalir.setBorderPainted(false);
+        btnSalir.setContentAreaFilled(false);
+        btnSalir.setFocusPainted(false);
+        btnSalir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSalir.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Salida3.png"))); // NOI18N
+        btnSalir.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salida1.png"))); // NOI18N
+        btnSalir.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 0, -1, -1));
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 0, -1, -1));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimiza2.png"))); // NOI18N
-        jButton3.setBorder(null);
-        jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false);
-        jButton3.setFocusPainted(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimizar3.png"))); // NOI18N
-        jButton3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimizar1.png"))); // NOI18N
-        jButton3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimiza2.png"))); // NOI18N
+        btnMinimizar.setBorder(null);
+        btnMinimizar.setBorderPainted(false);
+        btnMinimizar.setContentAreaFilled(false);
+        btnMinimizar.setFocusPainted(false);
+        btnMinimizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMinimizar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimizar3.png"))); // NOI18N
+        btnMinimizar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimizar1.png"))); // NOI18N
+        btnMinimizar.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnMinimizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnMinimizarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, -1, -1));
+        jPanel1.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, -1, -1));
 
         btnRespuesta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ingresar1.png"))); // NOI18N
         btnRespuesta.setBorder(null);
@@ -202,12 +204,22 @@ public class RespaldoCuenta extends javax.swing.JFrame {
         lblRespuesta.setText("Respuesta:");
         jPanel1.add(lblRespuesta, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
 
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back.png"))); // NOI18N
+        btnRegresar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back2.png"))); // NOI18N
+        btnRegresar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back1.png"))); // NOI18N
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 50, 40));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    //Salir del programa
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
         int sino = JOptionPane.YES_NO_OPTION;
         int resultado = JOptionPane.showConfirmDialog(null,"¿Desea Sallir del Sistema?","Exit",sino);
@@ -215,13 +227,13 @@ public class RespaldoCuenta extends javax.swing.JFrame {
             
             System.exit(0);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
+    //Minimizar el programa
+    private void btnMinimizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinimizarActionPerformed
         // TODO add your handling code here:
-         //this.setState(General.ICONIFIED);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
+        this.setState(RespaldoCuenta.ICONIFIED);
+    }//GEN-LAST:event_btnMinimizarActionPerformed
+    //Traspaso de datos del empleado seleccionado
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         lblUsuario.setText("Empleado: " + empleado.getNombre() + " " + empleado.getApellido());
         lblPregunta.setText(empleado.getPregunta());
@@ -230,11 +242,11 @@ public class RespaldoCuenta extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
     }//GEN-LAST:event_formWindowOpened
-
+    //Validar la respuesta ingresada
     private void btnRespuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRespuestaActionPerformed
         validarRespuesta();
     }//GEN-LAST:event_btnRespuestaActionPerformed
-
+    //Validar la respuesta ingresada
     private void validarRespuesta()
     {
         if (tfRespuesta.getText().equals(empleado.getRespuesta()))
@@ -256,19 +268,20 @@ public class RespaldoCuenta extends javax.swing.JFrame {
         else
             JOptionPane.showMessageDialog(null, "Respuesta incorrecta");
     }
+    //Movimiento entre campos de texto
     private void pfConfirmarContraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfConfirmarContraKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) generarNuevaContrasena();
     }//GEN-LAST:event_pfConfirmarContraKeyPressed
-
+    //Movimiento entre campos de texto
     private void pfConfirmarContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfConfirmarContraKeyTyped
         if (pfConfirmarContra.getPassword().length > 25) evt.consume();
         if (evt.getKeyCode()==KeyEvent.VK_UP || evt.getKeyCode()==KeyEvent.VK_DOWN) pfContrasena.requestFocus();
     }//GEN-LAST:event_pfConfirmarContraKeyTyped
-
+    //Generar nueva contraseña
     private void btnNuevaContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaContraActionPerformed
         generarNuevaContrasena();
     }//GEN-LAST:event_btnNuevaContraActionPerformed
-
+    //Generar nueva contraseña
     private void generarNuevaContrasena()
     {
         if (String.valueOf(pfContrasena.getPassword()).equals(String.valueOf(pfConfirmarContra.getPassword())))
@@ -283,22 +296,29 @@ public class RespaldoCuenta extends javax.swing.JFrame {
         else
             JOptionPane.showMessageDialog(null, "Las contraseñas ingresadas no coinciden");
     }
+    //Movimiento entre campos de texto
     private void pfContrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfContrasenaKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) pfConfirmarContra.requestFocus();
         if (evt.getKeyCode()==KeyEvent.VK_UP || evt.getKeyCode()==KeyEvent.VK_DOWN) pfConfirmarContra.requestFocus();
     }//GEN-LAST:event_pfContrasenaKeyPressed
-
+    //Validar un máximo de 25 caracteres en el campo de contraseña
     private void pfContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfContrasenaKeyTyped
         if (pfContrasena.getPassword().length > 25) evt.consume();
     }//GEN-LAST:event_pfContrasenaKeyTyped
-
+    //Movimiento entre campos de texto
     private void tfRespuestaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfRespuestaKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) validarRespuesta();
     }//GEN-LAST:event_tfRespuestaKeyPressed
-
+    //Validar un máximo de 60 caracteres en el campo de respuesta
     private void tfRespuestaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfRespuestaKeyTyped
         if (tfRespuesta.getText().length() > 60) evt.consume();
     }//GEN-LAST:event_tfRespuestaKeyTyped
+    //Regresar al login
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        Login login = new Login();
+        login.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -399,10 +419,11 @@ public class RespaldoCuenta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMinimizar;
     private javax.swing.JButton btnNuevaContra;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnRespuesta;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblConfirmarContra;
     private javax.swing.JLabel lblContrasena;

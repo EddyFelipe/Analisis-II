@@ -8,13 +8,15 @@ package controladores;
 import controladores.exceptions.NonexistentEntityException;
 import entidades.BonosDescuentos;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entidades.Detallepagos;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -32,11 +34,29 @@ public class BonosDescuentosJpaController implements Serializable {
     }
 
     public void create(BonosDescuentos bonosDescuentos) {
+        if (bonosDescuentos.getDetallepagosList() == null) {
+            bonosDescuentos.setDetallepagosList(new ArrayList<Detallepagos>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Detallepagos> attachedDetallepagosList = new ArrayList<Detallepagos>();
+            for (Detallepagos detallepagosListDetallepagosToAttach : bonosDescuentos.getDetallepagosList()) {
+                detallepagosListDetallepagosToAttach = em.getReference(detallepagosListDetallepagosToAttach.getClass(), detallepagosListDetallepagosToAttach.getId());
+                attachedDetallepagosList.add(detallepagosListDetallepagosToAttach);
+            }
+            bonosDescuentos.setDetallepagosList(attachedDetallepagosList);
             em.persist(bonosDescuentos);
+            for (Detallepagos detallepagosListDetallepagos : bonosDescuentos.getDetallepagosList()) {
+                BonosDescuentos oldBonosDescuentosIdOfDetallepagosListDetallepagos = detallepagosListDetallepagos.getBonosDescuentosId();
+                detallepagosListDetallepagos.setBonosDescuentosId(bonosDescuentos);
+                detallepagosListDetallepagos = em.merge(detallepagosListDetallepagos);
+                if (oldBonosDescuentosIdOfDetallepagosListDetallepagos != null) {
+                    oldBonosDescuentosIdOfDetallepagosListDetallepagos.getDetallepagosList().remove(detallepagosListDetallepagos);
+                    oldBonosDescuentosIdOfDetallepagosListDetallepagos = em.merge(oldBonosDescuentosIdOfDetallepagosListDetallepagos);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +70,34 @@ public class BonosDescuentosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            BonosDescuentos persistentBonosDescuentos = em.find(BonosDescuentos.class, bonosDescuentos.getId());
+            List<Detallepagos> detallepagosListOld = persistentBonosDescuentos.getDetallepagosList();
+            List<Detallepagos> detallepagosListNew = bonosDescuentos.getDetallepagosList();
+            List<Detallepagos> attachedDetallepagosListNew = new ArrayList<Detallepagos>();
+            for (Detallepagos detallepagosListNewDetallepagosToAttach : detallepagosListNew) {
+                detallepagosListNewDetallepagosToAttach = em.getReference(detallepagosListNewDetallepagosToAttach.getClass(), detallepagosListNewDetallepagosToAttach.getId());
+                attachedDetallepagosListNew.add(detallepagosListNewDetallepagosToAttach);
+            }
+            detallepagosListNew = attachedDetallepagosListNew;
+            bonosDescuentos.setDetallepagosList(detallepagosListNew);
             bonosDescuentos = em.merge(bonosDescuentos);
+            for (Detallepagos detallepagosListOldDetallepagos : detallepagosListOld) {
+                if (!detallepagosListNew.contains(detallepagosListOldDetallepagos)) {
+                    detallepagosListOldDetallepagos.setBonosDescuentosId(null);
+                    detallepagosListOldDetallepagos = em.merge(detallepagosListOldDetallepagos);
+                }
+            }
+            for (Detallepagos detallepagosListNewDetallepagos : detallepagosListNew) {
+                if (!detallepagosListOld.contains(detallepagosListNewDetallepagos)) {
+                    BonosDescuentos oldBonosDescuentosIdOfDetallepagosListNewDetallepagos = detallepagosListNewDetallepagos.getBonosDescuentosId();
+                    detallepagosListNewDetallepagos.setBonosDescuentosId(bonosDescuentos);
+                    detallepagosListNewDetallepagos = em.merge(detallepagosListNewDetallepagos);
+                    if (oldBonosDescuentosIdOfDetallepagosListNewDetallepagos != null && !oldBonosDescuentosIdOfDetallepagosListNewDetallepagos.equals(bonosDescuentos)) {
+                        oldBonosDescuentosIdOfDetallepagosListNewDetallepagos.getDetallepagosList().remove(detallepagosListNewDetallepagos);
+                        oldBonosDescuentosIdOfDetallepagosListNewDetallepagos = em.merge(oldBonosDescuentosIdOfDetallepagosListNewDetallepagos);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -80,6 +127,11 @@ public class BonosDescuentosJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The bonosDescuentos with id " + id + " no longer exists.", enfe);
             }
+            List<Detallepagos> detallepagosList = bonosDescuentos.getDetallepagosList();
+            for (Detallepagos detallepagosListDetallepagos : detallepagosList) {
+                detallepagosListDetallepagos.setBonosDescuentosId(null);
+                detallepagosListDetallepagos = em.merge(detallepagosListDetallepagos);
+            }
             em.remove(bonosDescuentos);
             em.getTransaction().commit();
         } finally {
@@ -87,20 +139,6 @@ public class BonosDescuentosJpaController implements Serializable {
                 em.close();
             }
         }
-    }
-    
-    public List encontrarBono_Descuento(String bono_descuento)
-    {
-        Query query = emf.createNamedQuery("BonosDescuentos.findByDescripci\u00f3n", BonosDescuentos.class);
-        query.setParameter("descripci\u00f3n", bono_descuento);
-        return query.getResultList();
-    }
-    
-    public List filtrar(String bono_descuento)
-    {
-        Query query = emf.createNamedQuery("BonosDescuentos.filtring", BonosDescuentos.class);
-        query.setParameter("descripcion", bono_descuento + "%");
-        return query.getResultList();
     }
 
     public List<BonosDescuentos> findBonosDescuentosEntities() {
@@ -110,7 +148,21 @@ public class BonosDescuentosJpaController implements Serializable {
     public List<BonosDescuentos> findBonosDescuentosEntities(int maxResults, int firstResult) {
         return findBonosDescuentosEntities(false, maxResults, firstResult);
     }
-
+    //Acá se obtiene un bono/descuento, pues se utiliza para validar al agregar un bono/descuento que exista uno con el mismo nombre
+    public List encontrarBono_Descuento(String bono_descuento)
+    {
+        Query query = emf.createNamedQuery("BonosDescuentos.findByDescripci\u00f3n", BonosDescuentos.class);
+        query.setParameter("descripci\u00f3n", bono_descuento);
+        return query.getResultList();
+    }
+    //Acá se filtran los bonos/descuentos por medio de una consulta de MySQL
+    public List filtrar(String bono_descuento)
+    {
+        Query query = emf.createNamedQuery("BonosDescuentos.filtring", BonosDescuentos.class);
+        query.setParameter("descripcion", bono_descuento + "%");
+        return query.getResultList();
+    }
+    
     private List<BonosDescuentos> findBonosDescuentosEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {

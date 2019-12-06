@@ -18,9 +18,10 @@ import singleton.singleton;
  */
 public class CreacionUsuarios extends javax.swing.JFrame {
 
-    Empleados empleado;
-    ClaseEmpleados clasEmpleados = new ClaseEmpleados();
-    Contrasena contrasena = new Contrasena();
+    Empleados empleado;//Se obtiene los datos del empleado, gracias al traspaso del mismo en el form del login
+    ClaseEmpleados clasEmpleados = new ClaseEmpleados();//Variable para efectuar la adición de datos al empleado
+    Contrasena contrasena = new Contrasena();//Variable para encriptar la contraseña ingresada
+    //Centrar form, y hacer focus al textfield de usuario
     public CreacionUsuarios() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -53,6 +54,7 @@ public class CreacionUsuarios extends javax.swing.JFrame {
         lblUsuario = new javax.swing.JLabel();
         lblConfirmarContra = new javax.swing.JLabel();
         tfUsuario = new javax.swing.JTextField();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -227,6 +229,16 @@ public class CreacionUsuarios extends javax.swing.JFrame {
         });
         jPanel1.add(tfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 210, -1));
 
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back.png"))); // NOI18N
+        btnRegresar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back2.png"))); // NOI18N
+        btnRegresar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back1.png"))); // NOI18N
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 50, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -250,30 +262,30 @@ public class CreacionUsuarios extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Validación de movimiento entre textfields
     private void tfRespuestaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfRespuestaKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_DOWN) tfUsuario.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_UP) rbMejorAmigo.requestFocus();
     }//GEN-LAST:event_tfRespuestaKeyPressed
-
+    //Validación de un máximo de 60 caracteres en el campo de respuesta
     private void tfRespuestaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfRespuestaKeyTyped
         if (tfRespuesta.getText().length() > 60) evt.consume();
     }//GEN-LAST:event_tfRespuestaKeyTyped
-
+    //Validación de movimiento entre textfields
     private void pfConfirmarContraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfConfirmarContraKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) tfRespuesta.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_DOWN) rbMascota.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_UP) pfContrasena.requestFocus();
     }//GEN-LAST:event_pfConfirmarContraKeyPressed
-
+    //Validación de un máximo de 25 caracteres en el campo de confirmación de contraseña
     private void pfConfirmarContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfConfirmarContraKeyTyped
         if (pfConfirmarContra.getPassword().length > 25) evt.consume();
     }//GEN-LAST:event_pfConfirmarContraKeyTyped
-
+    //Preguntar si se quiere salir del sistema
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int sino = JOptionPane.YES_NO_OPTION;
-        int resultado = JOptionPane.showConfirmDialog(null,"¿Desea Sallir del Sistema?","Exit",sino);
+        int resultado = JOptionPane.showConfirmDialog(null,"¿Desea Salir del Sistema?","Exit",sino);
         if(resultado==0){
 
             System.exit(0);
@@ -282,19 +294,19 @@ public class CreacionUsuarios extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        //this.setState(General.ICONIFIED);
+        this.setState(CreacionUsuarios.ICONIFIED);
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    //Validación de movimiento entre textfields
     private void pfContrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfContrasenaKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) pfConfirmarContra.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_DOWN) pfConfirmarContra.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_UP) tfUsuario.requestFocus();
     }//GEN-LAST:event_pfContrasenaKeyPressed
-
+    //Validación de un máximo de 25 caracteres en el campo de contraseña
     private void pfContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfContrasenaKeyTyped
         if (pfContrasena.getPassword().length > 25) evt.consume();
     }//GEN-LAST:event_pfContrasenaKeyTyped
-
+    //Validación de que sólo el radiobutton de deporte esté accionado
     private void rbDeporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeporteActionPerformed
         if (rbDeporte.isSelected())
         {
@@ -304,7 +316,7 @@ public class CreacionUsuarios extends javax.swing.JFrame {
         if (!rbDeporte.isSelected())
             rbDeporte.setSelected(true);
     }//GEN-LAST:event_rbDeporteActionPerformed
-
+    //Validación de que sólo el radiobutton de mejor amigo esté accionado
     private void rbMejorAmigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMejorAmigoActionPerformed
         if (rbMejorAmigo.isSelected())
         {
@@ -314,7 +326,7 @@ public class CreacionUsuarios extends javax.swing.JFrame {
         if (!rbMejorAmigo.isSelected())
             rbMejorAmigo.setSelected(false);
     }//GEN-LAST:event_rbMejorAmigoActionPerformed
-
+    //Validación de que sólo el radiobutton de mascota esté accionado
     private void rbMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMascotaActionPerformed
         if (rbMascota.isSelected())
         {
@@ -324,21 +336,21 @@ public class CreacionUsuarios extends javax.swing.JFrame {
         if (!rbMascota.isSelected())
             rbMascota.setSelected(true);
     }//GEN-LAST:event_rbMascotaActionPerformed
-
+    //Validación de movimiento entre textfields
     private void tfUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfUsuarioKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) pfContrasena.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_DOWN) pfContrasena.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_UP) tfRespuesta.requestFocus();
     }//GEN-LAST:event_tfUsuarioKeyPressed
-
+    //Validación de un máximo de 25 caracteres para ingresar el usuario
     private void tfUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfUsuarioKeyTyped
         if (tfUsuario.getText().length() > 25) evt.consume();
     }//GEN-LAST:event_tfUsuarioKeyTyped
-
+    //Traspaso de variable de tipo empleado entre el form login y de creación de usuarios
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         lblEmpleado.setText("Empleado: " + empleado.getNombre() + " " + empleado.getApellido());
     }//GEN-LAST:event_formWindowActivated
-
+    //Añadir usuario y contraseña
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (!tfUsuario.equals("") && !pfContrasena.equals("") && !pfConfirmarContra.equals("") && !tfRespuesta.equals("")
                 && (rbMascota.isSelected() || rbDeporte.isSelected() || rbMejorAmigo.isSelected()))
@@ -376,7 +388,7 @@ public class CreacionUsuarios extends javax.swing.JFrame {
         else
             JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos solicitados");
     }//GEN-LAST:event_btnAgregarActionPerformed
-
+    //Validación de movimiento entre radiobuttons
     private void rbMascotaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbMascotaKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_DOWN) rbDeporte.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_UP) pfConfirmarContra.requestFocus();
@@ -387,7 +399,7 @@ public class CreacionUsuarios extends javax.swing.JFrame {
             rbMejorAmigo.setSelected(false);
         }
     }//GEN-LAST:event_rbMascotaKeyPressed
-
+    //Validación de movimiento entre radiobuttons
     private void rbDeporteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbDeporteKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_DOWN) rbMejorAmigo.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_UP) rbMascota.requestFocus();
@@ -398,7 +410,7 @@ public class CreacionUsuarios extends javax.swing.JFrame {
             rbMejorAmigo.setSelected(false);
         }
     }//GEN-LAST:event_rbDeporteKeyPressed
-
+    //Validación de movimiento entre radiobuttons
     private void rbMejorAmigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbMejorAmigoKeyPressed
         if (evt.getKeyCode()==KeyEvent.VK_DOWN) tfRespuesta.requestFocus();
         else if (evt.getKeyCode()==KeyEvent.VK_UP) rbDeporte.requestFocus();
@@ -409,6 +421,12 @@ public class CreacionUsuarios extends javax.swing.JFrame {
             rbMejorAmigo.setSelected(true);
         }
     }//GEN-LAST:event_rbMejorAmigoKeyPressed
+    //Regresar al login y no guardar los cambios efectuados
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        Login login = new Login();
+        login.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,6 +466,7 @@ public class CreacionUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;

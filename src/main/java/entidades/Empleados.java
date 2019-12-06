@@ -6,7 +6,9 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,8 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Empleados.findByAdministrador", query = "SELECT e FROM Empleados e WHERE e.administrador = :administrador"),
     @NamedQuery(name = "Empleados.findByPregunta", query = "SELECT e FROM Empleados e WHERE e.pregunta = :pregunta"),
     @NamedQuery(name = "Empleados.findByRespuesta", query = "SELECT e FROM Empleados e WHERE e.respuesta = :respuesta"),
-    @NamedQuery(name = "Empleados.findBySalario", query = "SELECT e FROM Empleados e WHERE e.salario = :salario"),
-    @NamedQuery(name = "Empleados.filtring", query = "SELECT e FROM Empleados e WHERE e.nombre LIKE :nombrefilter" )})
+    @NamedQuery(name = "Empleados.filtring", query = "SELECT e FROM Empleados e WHERE e.nombre LIKE :nombrefilter" ),
+    @NamedQuery(name = "Empleados.findBySalario", query = "SELECT e FROM Empleados e WHERE e.salario = :salario")})
 public class Empleados implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +71,10 @@ public class Empleados implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "salario")
     private Float salario;
+    @OneToMany(mappedBy = "empleadosId")
+    private List<Telefonos> telefonosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empleadosId")
+    private List<Pagos> pagosList;
 
     public Empleados() {
     }
@@ -161,6 +169,24 @@ public class Empleados implements Serializable {
 
     public void setSalario(Float salario) {
         this.salario = salario;
+    }
+
+    @XmlTransient
+    public List<Telefonos> getTelefonosList() {
+        return telefonosList;
+    }
+
+    public void setTelefonosList(List<Telefonos> telefonosList) {
+        this.telefonosList = telefonosList;
+    }
+
+    @XmlTransient
+    public List<Pagos> getPagosList() {
+        return pagosList;
+    }
+
+    public void setPagosList(List<Pagos> pagosList) {
+        this.pagosList = pagosList;
     }
 
     @Override

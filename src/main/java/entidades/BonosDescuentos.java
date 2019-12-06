@@ -34,12 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "BonosDescuentos.findByMonto", query = "SELECT b FROM BonosDescuentos b WHERE b.monto = :monto"),
     @NamedQuery(name = "BonosDescuentos.findByDescontinuado", query = "SELECT b FROM BonosDescuentos b WHERE b.descontinuado = :descontinuado"),
     @NamedQuery(name = "BonosDescuentos.findByEsBono", query = "SELECT b FROM BonosDescuentos b WHERE b.esBono = :esBono"),
-    @NamedQuery(name = "BonosDescuentos.findByEsPorcentaje", query = "SELECT b FROM BonosDescuentos b WHERE b.esPorcentaje = :esPorcentaje"),
-    @NamedQuery(name = "BonosDescuentos.filtring", query = "SELECT b FROM BonosDescuentos b WHERE b.descripci\u00f3n LIKE :descripcion")})
+    @NamedQuery(name = "BonosDescuentos.filtring", query = "SELECT b FROM BonosDescuentos b WHERE b.descripci\u00f3n LIKE :descripcion"),
+    @NamedQuery(name = "BonosDescuentos.findByEsPorcentaje", query = "SELECT b FROM BonosDescuentos b WHERE b.esPorcentaje = :esPorcentaje")})
 public class BonosDescuentos implements Serializable {
-
-    @OneToMany(mappedBy = "bonosDescuentosId")
-    private List<Detallepagos> detallepagosList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,6 +55,8 @@ public class BonosDescuentos implements Serializable {
     private Short esBono;
     @Column(name = "esPorcentaje")
     private Short esPorcentaje;
+    @OneToMany(mappedBy = "bonosDescuentosId")
+    private List<Detallepagos> detallepagosList;
 
     public BonosDescuentos() {
     }
@@ -114,6 +113,15 @@ public class BonosDescuentos implements Serializable {
         this.esPorcentaje = esPorcentaje;
     }
 
+    @XmlTransient
+    public List<Detallepagos> getDetallepagosList() {
+        return detallepagosList;
+    }
+
+    public void setDetallepagosList(List<Detallepagos> detallepagosList) {
+        this.detallepagosList = detallepagosList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -137,15 +145,6 @@ public class BonosDescuentos implements Serializable {
     @Override
     public String toString() {
         return "entidades.BonosDescuentos[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Detallepagos> getDetallepagosList() {
-        return detallepagosList;
-    }
-
-    public void setDetallepagosList(List<Detallepagos> detallepagosList) {
-        this.detallepagosList = detallepagosList;
     }
     
 }

@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author User
  */
 public class Contrasena {
-    
+    //Encriptar una contraseña
     public String Encriptar(String texto) {
  
         String secretKey = "qualityinfosolutions"; //llave para encriptar datos
@@ -40,7 +40,7 @@ public class Contrasena {
         }
         return base64EncryptedString;
     }
- 
+    //Desencriptar una contraseña
     public String Desencriptar(String textoEncriptado) throws Exception {
  
         String secretKey = "qualityinfosolutions"; //llave para encriptar datos

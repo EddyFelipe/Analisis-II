@@ -18,7 +18,7 @@ import singleton.singleton;
  */
 public class FormAgregarEmpleado extends javax.swing.JPanel {
 
-    ClaseEmpleados clasEmpleados = new ClaseEmpleados();
+    ClaseEmpleados clasEmpleados = new ClaseEmpleados();//Variable para permitir la adición de un nuevo empleado
     /**
      * Creates new form FormAgregarEmpleado
      */
@@ -50,7 +50,7 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         lblSalario = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         PIngresoEmpleado.setBackground(new java.awt.Color(36, 41, 46));
         PIngresoEmpleado.setPreferredSize(new java.awt.Dimension(1010, 600));
@@ -210,8 +210,6 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         btnAgregar.setContentAreaFilled(false);
         btnAgregar.setFocusPainted(false);
         btnAgregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAgregar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Agrega_empleado2.png"))); // NOI18N
-        btnAgregar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Agrega_empleado1.png"))); // NOI18N
         btnAgregar.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,10 +234,12 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back.png"))); // NOI18N
+        btnRegresar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back1.png"))); // NOI18N
+        btnRegresar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Back2.png"))); // NOI18N
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
             }
         });
 
@@ -248,9 +248,9 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         PIngresoEmpleadoLayout.setHorizontalGroup(
             PIngresoEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PIngresoEmpleadoLayout.createSequentialGroup()
-                .addContainerGap(161, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(107, 107, 107)
+                .addGap(22, 22, 22)
+                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(223, 223, 223)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,8 +266,8 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PIngresoEmpleadoLayout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(36, 36, 36)
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(69, Short.MAX_VALUE))
         );
 
@@ -275,31 +275,31 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PIngresoEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE)
+            .addComponent(PIngresoEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 1113, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PIngresoEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    //Validación de accionar sólo el radiobutton de vendedor
     private void rbVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbVendedorActionPerformed
         if (rbVendedor.isSelected())
             rbAdministrador.setSelected(false);
     }//GEN-LAST:event_rbVendedorActionPerformed
-
+    //Validación de accionar sólo el radiobutton de administrador
     private void rbAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAdministradorActionPerformed
         if (rbAdministrador.isSelected())
             rbVendedor.setSelected(false);
     }//GEN-LAST:event_rbAdministradorActionPerformed
-
+    //Movimiento entre campos de texto
     private void tfNombresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombresKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN) || (evt.getKeyCode() == KeyEvent.VK_ENTER))
             tfApellidos.requestFocus();
         else if (evt.getKeyCode() == KeyEvent.VK_UP)
             rbAdministrador.requestFocus();
     }//GEN-LAST:event_tfNombresKeyPressed
-
+    //Validar un máximo de 30 caracteres en los nombres del empleado
     private void tfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombresKeyTyped
         char c = evt.getKeyChar();
 
@@ -315,25 +315,25 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
     private void tfDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDireccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfDireccionActionPerformed
-
+    //Movimiento entre campos de texto
     private void tfDireccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDireccionKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN) || (evt.getKeyCode() == KeyEvent.VK_ENTER))
             tfSalario.requestFocus();
         else if (evt.getKeyCode() == KeyEvent.VK_UP)
             tfApellidos.requestFocus();
     }//GEN-LAST:event_tfDireccionKeyPressed
-
+    //Validar un máximo de 45 caracteres en el campo de dirección
     private void tfDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDireccionKeyTyped
         if (tfDireccion.getText().length() > 45) evt.consume();
     }//GEN-LAST:event_tfDireccionKeyTyped
-
+    //Movimiento entre campos de texto
     private void tfSalarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSalarioKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN) || (evt.getKeyCode() == KeyEvent.VK_ENTER))
             rbVendedor.requestFocus();
         else if (evt.getKeyCode() == KeyEvent.VK_UP)
             tfDireccion.requestFocus();
     }//GEN-LAST:event_tfSalarioKeyPressed
-
+    //Validar un máximo de 6 caracteres en el salario
     private void tfSalarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSalarioKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9')
@@ -344,11 +344,11 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         
         if (tfSalario.getText().length() > 6) evt.consume();
     }//GEN-LAST:event_tfSalarioKeyTyped
-
+    //Añadir al empleado
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         AgregarEmpleado();
     }//GEN-LAST:event_btnAgregarActionPerformed
-
+    //Añadir al empleado
     private void AgregarEmpleado()
     {
         Empleados empleado = new Empleados();
@@ -390,14 +390,14 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         else
             JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos");
     }
-    
+    //Movimiento entre campos de texto
     private void tfApellidosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfApellidosKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN) || (evt.getKeyCode() == KeyEvent.VK_ENTER))
             tfDireccion.requestFocus();
         else if (evt.getKeyCode() == KeyEvent.VK_UP)
             tfNombres.requestFocus();
     }//GEN-LAST:event_tfApellidosKeyPressed
-
+    //Validación de un máximo de 30 caracteres en los apellidos del empleado
     private void tfApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfApellidosKeyTyped
         char c = evt.getKeyChar();
 
@@ -409,8 +409,8 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         if (tfApellidos.getText().length() > 30) evt.consume();
 
     }//GEN-LAST:event_tfApellidosKeyTyped
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    //Regresar al panel de empleados
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         FormEmpleados agregar  = new FormEmpleados();
         agregar.setSize(1010,600);
         agregar.setLocation(0, 0);
@@ -418,8 +418,8 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         this.add(agregar,BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    }//GEN-LAST:event_btnRegresarActionPerformed
+    //Validar que se accione sólo el radiobutton de vendedor
     private void rbVendedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbVendedorKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_DOWN)
             rbAdministrador.requestFocus();
@@ -432,7 +432,7 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
         }
             
     }//GEN-LAST:event_rbVendedorKeyPressed
-
+    //Validar que se accione sólo el radiobutton de administrador
     private void rbAdministradorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rbAdministradorKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_DOWN)
             tfNombres.requestFocus();
@@ -449,7 +449,7 @@ public class FormAgregarEmpleado extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PIngresoEmpleado;
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblApellidos;

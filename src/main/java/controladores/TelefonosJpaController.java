@@ -6,15 +6,17 @@
 package controladores;
 
 import controladores.exceptions.NonexistentEntityException;
-import entidades.Telefonos;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entidades.Compras;
+import entidades.Empleados;
+import entidades.Telefonos;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -36,7 +38,25 @@ public class TelefonosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Compras comprasIdcompras = telefonos.getComprasIdcompras();
+            if (comprasIdcompras != null) {
+                comprasIdcompras = em.getReference(comprasIdcompras.getClass(), comprasIdcompras.getIdcompras());
+                telefonos.setComprasIdcompras(comprasIdcompras);
+            }
+            Empleados empleadosId = telefonos.getEmpleadosId();
+            if (empleadosId != null) {
+                empleadosId = em.getReference(empleadosId.getClass(), empleadosId.getId());
+                telefonos.setEmpleadosId(empleadosId);
+            }
             em.persist(telefonos);
+            if (comprasIdcompras != null) {
+                comprasIdcompras.getTelefonosList().add(telefonos);
+                comprasIdcompras = em.merge(comprasIdcompras);
+            }
+            if (empleadosId != null) {
+                empleadosId.getTelefonosList().add(telefonos);
+                empleadosId = em.merge(empleadosId);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +70,36 @@ public class TelefonosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Telefonos persistentTelefonos = em.find(Telefonos.class, telefonos.getId());
+            Compras comprasIdcomprasOld = persistentTelefonos.getComprasIdcompras();
+            Compras comprasIdcomprasNew = telefonos.getComprasIdcompras();
+            Empleados empleadosIdOld = persistentTelefonos.getEmpleadosId();
+            Empleados empleadosIdNew = telefonos.getEmpleadosId();
+            if (comprasIdcomprasNew != null) {
+                comprasIdcomprasNew = em.getReference(comprasIdcomprasNew.getClass(), comprasIdcomprasNew.getIdcompras());
+                telefonos.setComprasIdcompras(comprasIdcomprasNew);
+            }
+            if (empleadosIdNew != null) {
+                empleadosIdNew = em.getReference(empleadosIdNew.getClass(), empleadosIdNew.getId());
+                telefonos.setEmpleadosId(empleadosIdNew);
+            }
             telefonos = em.merge(telefonos);
+            if (comprasIdcomprasOld != null && !comprasIdcomprasOld.equals(comprasIdcomprasNew)) {
+                comprasIdcomprasOld.getTelefonosList().remove(telefonos);
+                comprasIdcomprasOld = em.merge(comprasIdcomprasOld);
+            }
+            if (comprasIdcomprasNew != null && !comprasIdcomprasNew.equals(comprasIdcomprasOld)) {
+                comprasIdcomprasNew.getTelefonosList().add(telefonos);
+                comprasIdcomprasNew = em.merge(comprasIdcomprasNew);
+            }
+            if (empleadosIdOld != null && !empleadosIdOld.equals(empleadosIdNew)) {
+                empleadosIdOld.getTelefonosList().remove(telefonos);
+                empleadosIdOld = em.merge(empleadosIdOld);
+            }
+            if (empleadosIdNew != null && !empleadosIdNew.equals(empleadosIdOld)) {
+                empleadosIdNew.getTelefonosList().add(telefonos);
+                empleadosIdNew = em.merge(empleadosIdNew);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -80,6 +129,16 @@ public class TelefonosJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The telefonos with id " + id + " no longer exists.", enfe);
             }
+            Compras comprasIdcompras = telefonos.getComprasIdcompras();
+            if (comprasIdcompras != null) {
+                comprasIdcompras.getTelefonosList().remove(telefonos);
+                comprasIdcompras = em.merge(comprasIdcompras);
+            }
+            Empleados empleadosId = telefonos.getEmpleadosId();
+            if (empleadosId != null) {
+                empleadosId.getTelefonosList().remove(telefonos);
+                empleadosId = em.merge(empleadosId);
+            }
             em.remove(telefonos);
             em.getTransaction().commit();
         } finally {
@@ -87,6 +146,43 @@ public class TelefonosJpaController implements Serializable {
                 em.close();
             }
         }
+    }
+    //Acá se obtiene un número en específico, para validar que no se ingresen dos números iguales
+    public List encontrarTelefono(String numero)
+    {
+        Query query = emf.createNamedQuery("Telefonos.findByNumero", Telefonos.class);
+        query.setParameter("numero", numero);
+        return query.getResultList();
+    }
+    //Acá se obtiene un listado de teléfonos de un empleado en específico
+    public List desplegarTelefonos(Empleados empleado)
+    {
+        Query query = emf.createNamedQuery("Telefonos.encontrar", Telefonos.class);
+        query.setParameter("empleadoId", empleado);
+        return query.getResultList();
+    }
+    //Acá se obtiene un listado de teléfonos de una empresa en específico
+    public List desplegarTelefonosEmpresa(Compras empresa)
+    {
+        Query query = emf.createNamedQuery("Telefonos.encontrarEmpresa", Telefonos.class);
+        query.setParameter("idCompras", empresa);
+        return query.getResultList();
+    }
+    //Acá se filtran los teléfonos de un empleado en específico, por medio de una consulta de MySQL
+    public List filtrar(String telefono, Empleados empleado)
+    {
+        Query query = emf.createNamedQuery("Telefonos.filtring", Telefonos.class);
+        query.setParameter("numempleado", telefono + "%");
+        query.setParameter("empleadoId", empleado);
+        return query.getResultList();
+    }
+    //Acá se filtran los teléfonos de una empresa en específico, por medio de una consulta de MySQL
+    public List filtrarEmpresa(String telefono, Compras empresa)
+    {
+        Query query = emf.createNamedQuery("Telefonos.filtrar", Telefonos.class);
+        query.setParameter("numempresa", telefono + "%");
+        query.setParameter("idCompras", empresa);
+        return query.getResultList();
     }
 
     public List<Telefonos> findTelefonosEntities() {
@@ -111,28 +207,6 @@ public class TelefonosJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
-    
-    public List encontrarTelefono(String numero)
-    {
-        Query query = emf.createNamedQuery("Telefonos.findByNumero", Telefonos.class);
-        query.setParameter("numero", numero);
-        return query.getResultList();
-    }
-    
-    public List desplegarTelefonos(Integer idEmpleado)
-    {
-        Query query = emf.createNamedQuery("Telefonos.encontrar", Telefonos.class);
-        query.setParameter("empleadoId", idEmpleado);
-        return query.getResultList();
-    }
-    
-    public List filtrar(String telefono, Integer idEmpleado)
-    {
-        Query query = emf.createNamedQuery("Telefonos.filtring", Telefonos.class);
-        query.setParameter("numempleado", telefono + "%");
-        query.setParameter("empleadoId", idEmpleado);
-        return query.getResultList();
     }
 
     public Telefonos findTelefonos(Integer id) {
