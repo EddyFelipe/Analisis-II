@@ -2,21 +2,26 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="continental" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>entidades.Producto</class>
+    <class>entidades.BonosDescuentos</class>
     <class>entidades.Categoria</class>
-    <class>entidades.DetalleVenta</class>
     <class>entidades.Cliente</class>
-    <class>entidades.Factura</class>
-    <class>entidades.Bonos</class>
-    <class>entidades.BonosOtorgados</class>
+    <class>entidades.Compra</class>
+    <class>entidades.Compras</class>
+    <class>entidades.DetalleVenta</class>
+    <class>entidades.Detallecompras</class>
+    <class>entidades.Detallepagos</class>
     <class>entidades.Empleados</class>
-    <class>entidades.Infracciones</class>
-    <class>entidades.InfraccionesOtorgadas</class>
+    <class>entidades.Factura</class>
+    <class>entidades.Pagos</class>
+    <class>entidades.Producto</class>
+    <class>entidades.Telefonos</class>
+    <class>entidades.Compra_1</class>
+    <class>entidades.BonosDescuentos_1</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/continental?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/continental?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.password" value="bases"/>
     </properties>
   </persistence-unit>
 </persistence>

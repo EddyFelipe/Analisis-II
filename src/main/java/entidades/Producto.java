@@ -13,13 +13,15 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author felipe
+ * @author User
  */
 @Entity
 @Table(name = "producto")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p"),
     @NamedQuery(name = "Producto.findByIdproducto", query = "SELECT p FROM Producto p WHERE p.productoPK.idproducto = :idproducto"),
@@ -28,10 +30,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "Producto.findByPrecioVenta", query = "SELECT p FROM Producto p WHERE p.precioVenta = :precioVenta"),
     @NamedQuery(name = "Producto.findByEliminado", query = "SELECT p FROM Producto p WHERE p.eliminado = :eliminado"),
     @NamedQuery(name = "Producto.findByReservado", query = "SELECT p FROM Producto p WHERE p.reservado = :reservado"),
-    @NamedQuery(name = "Producto.findByIdcategoria", query = "SELECT p FROM Producto p WHERE p.productoPK.idcategoria = :idcategoria"),
-    @NamedQuery(name = "Producto.findFilter", query = "SELECT p FROM Producto p WHERE p.nombre LIKE :nombrefilter ")})
+    @NamedQuery(name = "Producto.findByIdcategoria", query = "SELECT p FROM Producto p WHERE p.productoPK.idcategoria = :idcategoria")})
 public class Producto implements Serializable {
-//@NamedQuery(name = "Producto.update", query = "UPDATE Producto p SET p.reservado = :cantidad WHERE p.productoPK.idproducto = :idproducto")
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ProductoPK productoPK;

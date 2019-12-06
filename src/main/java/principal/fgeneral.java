@@ -5,9 +5,12 @@
  */
 package principal;
 
+import entidades.Empleados;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import state.Comportamiento;
+import state.Deshabilitacion;
 
 /**
  *
@@ -15,9 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class fgeneral extends javax.swing.JFrame {
 
-    /**
-     * Creates new form fgeneral
-     */
+    Empleados empleado;
     public fgeneral() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -39,12 +40,18 @@ public class fgeneral extends javax.swing.JFrame {
         menu = new javax.swing.JPanel();
         btnVentas = new javax.swing.JButton();
         btnInventario = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnRRHH = new javax.swing.JButton();
+        btnCompras = new javax.swing.JButton();
         contenedor = new javax.swing.JPanel();
         lblIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         encabezado.setBackground(new java.awt.Color(36, 41, 46));
@@ -110,9 +117,9 @@ public class fgeneral extends javax.swing.JFrame {
         encabezadoLayout.setHorizontalGroup(
             encabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(encabezadoLayout.createSequentialGroup()
-                .addGap(360, 360, 360)
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 664, Short.MAX_VALUE)
                 .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -125,10 +132,10 @@ public class fgeneral extends javax.swing.JFrame {
                         .addGap(2, 2, 2)
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(encabezadoLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnMinimize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(encabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnMinimize)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -166,15 +173,29 @@ public class fgeneral extends javax.swing.JFrame {
         });
         menu.add(btnInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 50, 50));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empleados.png"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRRHH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empleados.png"))); // NOI18N
+        btnRRHH.setBorderPainted(false);
+        btnRRHH.setContentAreaFilled(false);
+        btnRRHH.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empleados2.png"))); // NOI18N
+        btnRRHH.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empleados1.png"))); // NOI18N
+        btnRRHH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRRHHActionPerformed(evt);
             }
         });
-        menu.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 70, -1));
+        menu.add(btnRRHH, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 70, -1));
+
+        btnCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/proveedor.png"))); // NOI18N
+        btnCompras.setBorderPainted(false);
+        btnCompras.setContentAreaFilled(false);
+        btnCompras.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/proveedor2.png"))); // NOI18N
+        btnCompras.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/proveedor1.png"))); // NOI18N
+        btnCompras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComprasActionPerformed(evt);
+            }
+        });
+        menu.add(btnCompras, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 70, -1));
 
         getContentPane().add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
 
@@ -204,15 +225,15 @@ public class fgeneral extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Botón para salir del programa
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         int sino = JOptionPane.YES_NO_OPTION;
-        int resultado = JOptionPane.showConfirmDialog(null,"¿Desea Sallir del Sistema?","Exit",sino);
+        int resultado = JOptionPane.showConfirmDialog(null,"¿Desea Salir del Sistema?","Exit",sino);
         if(resultado==0){
             System.exit(0);
         }
     }//GEN-LAST:event_btnExitActionPerformed
-
+    //Cambio de fondo de color al poner el mouse encima del botón de salida
     private void btnExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseEntered
         // TODO add your handling code here:
         btnExit.setBackground(Color.RED);
@@ -225,27 +246,27 @@ public class fgeneral extends javax.swing.JFrame {
     private void btnExitMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseReleased
  
     }//GEN-LAST:event_btnExitMouseReleased
-
+    //Cambio de fondo de color al poner el mouse encima del botón de salida
     private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
         // TODO add your handling code here:
         btnExit.setBackground(new Color(36, 41, 46));
     }//GEN-LAST:event_btnExitMouseExited
-
+    //Cambio de fondo de color al poner el mouse encima del botón de minimizar
     private void btnMinimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseEntered
         // TODO add your handling code here:
         btnMinimize.setBackground(Color.red);
     }//GEN-LAST:event_btnMinimizeMouseEntered
-
+    //Cambio de fondo de color al poner el mouse encima del botón de salida
     private void btnMinimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseExited
         // TODO add your handling code here:
         btnMinimize.setBackground(new Color(36, 41, 46));
     }//GEN-LAST:event_btnMinimizeMouseExited
-
+    //Cambio de fondo de color al poner el mouse encima del botón de minimizar
     private void btnMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinimizeActionPerformed
         // TODO add your handling code here:
         this.setState(fgeneral.ICONIFIED);
     }//GEN-LAST:event_btnMinimizeActionPerformed
-
+    //Ingresar al módulo de ventas
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         // TODO add your handling code here:
         fventa venta = new fventa();
@@ -257,7 +278,7 @@ public class fgeneral extends javax.swing.JFrame {
         contenedor.repaint();
         
     }//GEN-LAST:event_btnVentasActionPerformed
-
+    //Ingresar al módulo de inventario
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
         // TODO add your handling code here:
         finvenario in = new finvenario();
@@ -268,8 +289,8 @@ public class fgeneral extends javax.swing.JFrame {
         contenedor.revalidate();
         contenedor.repaint();
     }//GEN-LAST:event_btnInventarioActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    //Ingresar al módulo de recursos humanos
+    private void btnRRHHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRRHHActionPerformed
         FormEmpleados empleados = new FormEmpleados();
         empleados.setSize(1010,600);
         empleados.setLocation(0, 0);
@@ -277,7 +298,26 @@ public class fgeneral extends javax.swing.JFrame {
         contenedor.add(empleados,BorderLayout.CENTER);
         contenedor.revalidate();
         contenedor.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnRRHHActionPerformed
+    //Traspasar los datos del empleado que ingresó con usuario y contraseña
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        jLabel1.setText(empleado.getNombre() + " " + empleado.getApellido());
+        Comportamiento comportamiento = new Comportamiento();
+        Deshabilitacion deshabilitacion = new Deshabilitacion();
+        btnInventario.setEnabled(deshabilitacion.ejecutarEstado(empleado));
+        btnRRHH.setEnabled(deshabilitacion.ejecutarEstado(empleado));
+        btnCompras.setEnabled(deshabilitacion.ejecutarEstado(empleado));
+    }//GEN-LAST:event_formWindowActivated
+    //Ingresar al módulo de compras
+    private void btnComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprasActionPerformed
+        FormCompras compras = new FormCompras();
+        compras.setSize(1010,600);
+        compras.setLocation(0, 0);
+        contenedor.removeAll();
+        contenedor.add(compras,BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+    }//GEN-LAST:event_btnComprasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -315,13 +355,14 @@ public class fgeneral extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCompras;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnInventario;
     private javax.swing.JButton btnMinimize;
+    private javax.swing.JButton btnRRHH;
     private javax.swing.JButton btnVentas;
     private javax.swing.JPanel contenedor;
     private javax.swing.JPanel encabezado;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblIcon;
     private javax.swing.JPanel menu;
